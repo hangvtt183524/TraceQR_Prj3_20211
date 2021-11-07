@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         paddingVertical: 30
     },
     text_footer: {
-        color: '#05375a',
+        color: style_default.AUTHEN_COLOR,
         fontSize: 18
     },
     action: {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 20,
-        color: '#05375a',
+        color: style_default.AUTHEN_COLOR,
         
     },
     button: {
