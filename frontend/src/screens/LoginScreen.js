@@ -10,8 +10,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import FontAwesom from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import style_default from '../shared/const';
 
@@ -22,8 +23,12 @@ const LoginScreen = () => {
         <View style={styles.container}>
             {/* <StatusBar backgroundColor='#009387' barStyle='light-content'></StatusBar> */}
             <View style={styles.header}>
-                <Text style={styles.text_header}>Login</Text>
-                <Text style={styles.text_header}>SignUp</Text>
+            <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
+                <View style={styles.header_title}>
+                    <Text style={styles.text_header}>Login</Text>
+                    <Text style={styles.text_header}>SignUp</Text>
+                </View>
+                
             </View>
             <Animatable.View 
                 animation='fadeInUpBig'
@@ -35,7 +40,7 @@ const LoginScreen = () => {
                     color: colors.text
                 }]}>Username</Text>
                 <View style={styles.action}>
-                    <FontAwesom name="user-o" color={colors.text} size={20} />
+                    <FontAwesome name="user-o" color={colors.text} size={20} />
                     <TextInput 
                         placeholder="Username"
                         placeholderTextColor="#666666"
@@ -86,13 +91,15 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 1,
-        display: 'flex',
+        flexDirection: 'column',
+        paddingHorizontal: 20,
+        paddingRight: 100,
+        paddingTop: 50
+    },
+    header_title: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        paddingHorizontal: 20,
-        paddingBottom: 50,
-        paddingRight: 100
     },
     text_header: {
         color: style_default.WHITE_COLOR,

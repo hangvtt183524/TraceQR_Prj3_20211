@@ -11,6 +11,8 @@ import {
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import style_default from '../shared/const';
 
@@ -18,6 +20,7 @@ const RegisterScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
         <Text style={styles.text_header}>SignUp Now!</Text>
       </View>
       <Animatable.View
@@ -45,7 +48,7 @@ const RegisterScreen = () => {
           </View>
           <Text style={styles.text_footer}>Nhap lai mat khau</Text>
           <View style={styles.action}>
-            <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />
+            <MaterialIcons name="security" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
               placeholder="Nhap lai chinh xac mat khau"
               autoCapitalize="none"
@@ -72,10 +75,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingBottom: 50,
     paddingRight: 100

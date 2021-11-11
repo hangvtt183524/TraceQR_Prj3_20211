@@ -10,8 +10,8 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <RegisterScreen />
-      {/* <LoginScreen /> */}
+      {/* <RegisterScreen /> */}
+      <LoginScreen />
     </NavigationContainer>
   );
 }
