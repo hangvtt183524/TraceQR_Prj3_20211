@@ -23,7 +23,7 @@ const LoginScreen = () => {
         <View style={styles.container}>
             {/* <StatusBar backgroundColor='#009387' barStyle='light-content'></StatusBar> */}
             <View style={styles.header}>
-            <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
+                <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
                 <View style={styles.header_title}>
                     <Text style={styles.text_header}>Login</Text>
                     <Text style={styles.text_header}>SignUp</Text>
