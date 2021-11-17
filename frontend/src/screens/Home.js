@@ -4,10 +4,10 @@ import {
   StyleSheet,
   Text
 } from 'react-native';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import FunctionHome from "../components/FunctionHome";
 
 import style_default from '../shared/const';
 
@@ -17,24 +17,29 @@ const HomeScreen = () => {
       <View style={styles.header}>
         <View style={styles.header_info}>
           <Text style={styles.header_text}>Username</Text>
-          <MaterialCommunityIcons name="qrcode-scan" color={style_default.WHITE_COLOR} size={30} />
         </View>
         <View style={styles.header_icon}>
           <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
         </View>
       </View>
       <View style={styles.body}>
-
+        <View  style={styles.body_function}>
+          <FunctionHome name="Warning" />
+        </View>
+        <View  style={styles.body_function}>
+          <FunctionHome name="History" />
+        </View>
+        <View  style={styles.body_function}>
+          <FunctionHome name="YourQR" />
+        </View>
+        <View  style={styles.body_function}>
+          <FunctionHome name="Profile" />
+        </View>
       </View>
       <View style={styles.footer}>
-        <FontAwesome name="history" color={style_default.WHITE_COLOR} size={25} />
-        <FontAwesome name="location-arrow" color={style_default.WHITE_COLOR} size={32} />
         <View style={styles.footer_qr}>
-          <FontAwesome name="qrcode" color={style_default.WHITE_COLOR} size={40} />
+          <MaterialCommunityIcons name="qrcode-scan" color={style_default.WHITE_COLOR} size={30} />
         </View>
-        <Ionicons name="md-add-circle-outline" color={style_default.WHITE_COLOR} size={32} />
-        <FontAwesome name="user-circle" color={style_default.WHITE_COLOR} size={25} />
-        
       </View>
     </View>
   )
@@ -75,7 +80,21 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     paddingHorizontal: 20,
-    paddingVertical: 30
+    paddingVertical: 30,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'space-around',
+    justifyContent: 'space-around'
+  },
+  body_function: {
+    width: '40%',
+    height: 150,
+    backgroundColor: '#54a',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    alignContent: 'center'
   },
   footer: {
     flex: 1,
