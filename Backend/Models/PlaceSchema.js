@@ -8,7 +8,10 @@ const PlaceSchema = mongoose.Schema(
         typeName: String,
         name: String,
         address: String,
-        location: String,
+        location: {
+            longtitude: String, 
+            latitude: String
+        },
         phoneNumber: Number,
         accessToken: String,
         createdQRDate: Date,

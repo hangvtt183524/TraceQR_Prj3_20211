@@ -9,7 +9,10 @@ const ScanQRSchema = mongoose.Schema(
             {
                 _idScanner: mongoose.ObjectID,
                 timeScan: Date,
-                locationScan: String
+                locationScan: {
+                    longtitude: String,
+                    latitude: String
+                }
             }
         ]
     }
