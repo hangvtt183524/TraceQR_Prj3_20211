@@ -11,10 +11,9 @@ import style_default from '../shared/const';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const iconMap = {
-    Notification: "warning-outline",
-    Profile: "face-profile",
-    History: "history",
-    YourQR: "qrcode-scan"
+    "History": "history",
+    "Scan QR": "qrcode-scan",
+    "YourQR": "qrcode-edit"
 }
 
 const FunctionHome = (functionName) => {

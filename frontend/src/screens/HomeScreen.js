@@ -24,16 +24,13 @@ const HomeScreen = () => {
       </View>
       <View style={styles.body}>
         <View  style={styles.body_function}>
-          <FunctionHome name="Notification" />
+          <FunctionHome name="Scan QR" />
         </View>
         <View  style={styles.body_function}>
           <FunctionHome name="History" />
         </View>
         <View  style={styles.body_function}>
           <FunctionHome name="YourQR" />
-        </View>
-        <View  style={styles.body_function}>
-          <FunctionHome name="Profile" />
         </View>
       </View>
     </View>
@@ -80,8 +77,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   body_function: {
-    width: '40%',
-    height: 150,
+    width: '80%',
+    height: 85,
     backgroundColor: '#54a',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
