@@ -4,6 +4,7 @@ const ScanQRSchema = mongoose.Schema(
     {
         _idReference: mongoose.ObjectID,
         QR: String,
+        createdQRDate: Date,
         scanQRList: [
             {
                 _idScanner: mongoose.ObjectID,

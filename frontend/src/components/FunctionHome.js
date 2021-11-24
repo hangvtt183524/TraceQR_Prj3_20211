@@ -11,7 +11,7 @@ import style_default from '../shared/const';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const iconMap = {
-    Warning: "warning-outline",
+    Notification: "warning-outline",
     Profile: "face-profile",
     History: "history",
     YourQR: "qrcode-scan"
@@ -22,7 +22,7 @@ const FunctionHome = (functionName) => {
         <TouchableOpacity style={styles.container}>
             <LinearGradient colors={['#916BBF', '#C996CC']} style={styles.lineargradient} >
                 <View>
-                    {functionName.name === 'Warning' ? <Ionicons name="warning-outline" color={style_default.WHITE_COLOR} size={40} style={styles.icon} /> : <MaterialCommunityIcons name={iconMap[functionName.name]}  color={style_default.WHITE_COLOR} size={40} style={styles.icon} />}
+                    {functionName.name === 'Notification' ? <Ionicons name="notifications" color={style_default.WHITE_COLOR} size={40} style={styles.icon} /> : <MaterialCommunityIcons name={iconMap[functionName.name]}  color={style_default.WHITE_COLOR} size={40} style={styles.icon} />}
                     <Text style={styles.lineargradient_text}>
                         {functionName.name}
                     </Text>

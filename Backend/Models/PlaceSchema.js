@@ -4,14 +4,18 @@ const PlaceSchema = mongoose.Schema(
     {
         password: String,
         email: String,
+        type: Number,
+        typeName: String,
         name: String,
         address: String,
         location: String,
         phoneNumber: Number,
         accessToken: String,
         createdQRDate: Date,
-        isLogin: Boolean,
-        uuid: String
+        isLoginPC: Boolean,
+        isLoginPhone: Boolean,
+        uuidPC: String,
+        uuidPhone: String
     }
 );
 

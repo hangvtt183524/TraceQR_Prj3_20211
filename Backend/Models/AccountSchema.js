@@ -8,9 +8,10 @@ const AccountSchema = mongoose.Schema(
         userName: String,
         phoneNumber: Number,
         accessToken: String,
-        createdQRDate: Date,
-        isLogin: Boolean,
-        uuid: String
+        isLoginPC: Boolean,
+        isLoginPhone: Boolean,
+        uuidPC: String,
+        uuidPhone: String
     }
 );
 

@@ -24,7 +24,7 @@ const HomeScreen = () => {
       </View>
       <View style={styles.body}>
         <View  style={styles.body_function}>
-          <FunctionHome name="Warning" />
+          <FunctionHome name="Notification" />
         </View>
         <View  style={styles.body_function}>
           <FunctionHome name="History" />
