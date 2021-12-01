@@ -11,7 +11,7 @@ import FunctionHome from "../components/FunctionHome";
 
 import style_default from '../shared/const';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
   const toProfile = () => {
     navigation.navigate('ProfileScreen');
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     alignContent: 'center'
-  }
+  },
 });
 
 export default HomeScreen;
