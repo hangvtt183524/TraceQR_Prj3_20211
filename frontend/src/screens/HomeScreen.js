@@ -13,9 +13,17 @@ import style_default from '../shared/const';
 
 const HomeScreen = ({navigation}) => {
 
-  const toProfile = () => {
-    navigation.navigate('ProfileScreen');
+  const toYourQR = () => {
+    navigation.navigate('YourQRScreen');
   } 
+
+  const toScanQR = () => {
+    navigation.navigate('ScanQRScreen');
+  }
+
+  const toHistory = () => {
+    navigation.navigate('HistoryScreen');
+  }
 
   return (
     <View style={styles.container}>
@@ -29,13 +37,13 @@ const HomeScreen = ({navigation}) => {
       </View>
       <View style={styles.body}>
         <View  style={styles.body_function}>
-          <FunctionHome name="Scan QR" />
+          <FunctionHome name="Scan QR" event={toScanQR} />
         </View>
         <View  style={styles.body_function}>
-          <FunctionHome name="History" />
+          <FunctionHome name="History" event={toHistory} />
         </View>
         <View  style={styles.body_function}>
-          <FunctionHome name="YourQR" event={toProfile} />
+          <FunctionHome name="YourQR" event={toYourQR} />
         </View>
       </View>
     </View>
