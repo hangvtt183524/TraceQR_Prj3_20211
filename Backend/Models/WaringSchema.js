@@ -11,4 +11,4 @@ const WarningSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.Model('Warning', WarningSchema);
+module.exports = mongoose.model('Warning', WarningSchema);

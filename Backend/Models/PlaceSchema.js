@@ -22,4 +22,4 @@ const PlaceSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.Model('Place', PlaceSchema);
+module.exports = mongoose.model('Place', PlaceSchema);

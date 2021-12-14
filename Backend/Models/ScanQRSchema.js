@@ -18,4 +18,4 @@ const ScanQRSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.Model('ScanQR', ScanQRSchema);
+module.exports = mongoose.model('ScanQR', ScanQRSchema);

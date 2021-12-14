@@ -29,9 +29,9 @@ const loginAccount = async (acc, password) => {
 
 /* api login */
 authenRoute.post('/accounts/login', async (req, res) => {
-    const { phoneNumber, email, password } = req.body;
+    const { phoneNumber, email, password } = req.body.account;
 
-    try {
+      try {
         if (phoneNumber && !email) {
             const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber});
             loginAccount(acc, password);
@@ -78,3 +78,5 @@ authenRoute.post('/accounts/logout', authenticateToken, async (req, res) => {
         return res.status(500).json({ code: "50", message: "error database" });
     }
 });
+
+module.exports = authenRoute;

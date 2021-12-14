@@ -15,4 +15,4 @@ const StateSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.Model('State', StateSchema);
+module.exports = mongoose.model('State', StateSchema);
