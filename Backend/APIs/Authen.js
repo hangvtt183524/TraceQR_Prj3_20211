@@ -18,7 +18,7 @@ const loginAccount = async (acc, password) => {
         const user = { id: acc._id };
         const accessToken = await generateAccessToken(user);
 
-        const updateLogin = await AccountSchema.update({ _id: acc._id }, { accessToken: accessToken });
+        const updateLogin = await AccountSchema.updateOne({ _id: acc._id }, { accessToken: accessToken });
         return res.status(200).json({ code: "20", message: "OK", data: {
                 id: acc._id,
                 userName: acc.userName,
@@ -29,7 +29,7 @@ const loginAccount = async (acc, password) => {
 
 /* api login */
 authenRoute.post('/accounts/login', async (req, res) => {
-    const { phoneNumber, email, password } = req.body.account;
+    const { phoneNumber, email, password } = req.body;
 
       try {
         if (phoneNumber && !email) {
@@ -49,7 +49,7 @@ authenRoute.post('/accounts/login', async (req, res) => {
 
 /* api register */
 authenRoute.post('/accounts/register', async (req, res) => {
-    const { cccd, phoneNumber, email, password } = req.body;
+    const { cccd, phoneNumber, email, userName, password } = req.body;
 
     try {
         const existAcc = await AccountSchema.findOne({ $or: [{ cccd: cccd }, { phoneNumber: phoneNumber }, { email: email }] });

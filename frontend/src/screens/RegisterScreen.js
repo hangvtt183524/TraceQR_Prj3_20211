@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
+  Alert 
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -14,13 +15,56 @@ import Feather from 'react-native-vector-icons/Feather';
 import { FontAwesome5 } from '@expo/vector-icons';
 import BackButton from '../components/BackButton';
 
+import axios from 'axios';
 import style_default from '../shared/const';
+import isAllDigits from '../Services/checkDigits';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
   const [hidePass, setHidePass] = useState(true);
-
   const [hideRetypePass, setHideRetypePass] = useState(true);
+  const [cccd, setCCCD] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confpassword, setConfpassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const register = async function(event) {
+    event.preventDefault();
+
+    if (!cccd.trim() || !email.trim() || !username.trim() || !password.trim() || !phoneNumber.trim()) {
+      Alert.alert('Please fill out all information!');
+    } else if (!isAllDigits(cccd)) {
+      Alert.alert('Invalid CCCD!');
+    } else if (!isAllDigits(phoneNumber)) {
+      Alert.alert('Invalid Phone Number!');
+    } else if (confpassword !== password) {
+      Alert.alert('Please confirm password again!');
+    } else {
+      const newAccount = {
+        cccd: cccd,
+        phoneNumber: phoneNumber,
+        email: email,
+        userName: username,
+        password: password
+      };
+
+      await axios.post(`http://192.168.0.108:5000/accounts/register`, newAccount)
+      .then(res => {
+        if (res.data.code === '43') Alert.alert("This information has been used for another account!");
+        else if (res.data.code === '50') Alert.alert("Error! Please try again after a few minutes...");
+        else if (res.data.code === '20') {
+          navigation.navigate('LoginScreen');
+        } 
+        else Alert.alert(res.data.message);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+
+  };
 
   return (
     <View style={styles.container}>
@@ -40,8 +84,45 @@ const RegisterScreen = () => {
               placeholder="Số CCCD/CMND"
               autoCapitalize="none"
               style={styles.textInput}
+              onChangeText={text => setCCCD(text)}
+              keyboardType={'numeric'}
             />
           </View>
+
+          <Text style={styles.text_footer}>Email</Text>
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
+            <TextInput 
+              placeholder="Email"
+              autoCapitalize="none"
+              style={styles.textInput}
+              onChangeText={text => setEmail(text)}
+            />
+          </View>
+
+          <Text style={styles.text_footer}>Phone Number</Text>
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
+            <TextInput 
+              placeholder="Số CCCD/CMND"
+              autoCapitalize="none"
+              style={styles.textInput}
+              onChangeText={text => setPhoneNumber(text)}
+              keyboardType={'numeric'}
+            />
+          </View>
+
+          <Text style={styles.text_footer}>Username</Text>
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
+            <TextInput 
+              placeholder="Username"
+              autoCapitalize="none"
+              style={styles.textInput}
+              onChangeText={text => setUsername(text)}
+            />
+          </View>
+
           <Text style={styles.text_footer}>Mật khẩu</Text>
           <View style={styles.action}>
             <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />
@@ -50,6 +131,7 @@ const RegisterScreen = () => {
               autoCapitalize="none"
               style={styles.textInput}
               secureTextEntry={hidePass ? true : false}
+              onChangeText={text => setPassword(text)}
             />
             <FontAwesome5
               name={hidePass ? 'eye' : 'eye-slash'} 
@@ -65,6 +147,7 @@ const RegisterScreen = () => {
               autoCapitalize="none"
               style={styles.textInput}
               secureTextEntry={hideRetypePass ? true : false}
+              onChangeText={text => setConfpassword(text)}
             />
             <FontAwesome5
               name={hideRetypePass ? 'eye' : 'eye-slash'} 
@@ -73,7 +156,8 @@ const RegisterScreen = () => {
             />
           </View>
           <View style={styles.button}>
-            <TouchableOpacity style={styles.signIn}>
+            <TouchableOpacity style={styles.signIn}
+              onPress={register}>
               <Text style={styles.textSign}>Đăng ký tài khoản</Text>
             </TouchableOpacity>
           </View>

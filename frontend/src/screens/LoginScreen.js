@@ -15,7 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 import style_default from '../shared/const';
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import axois from 'axios';
+import axios from 'axios';
 
 const LoginScreen = ({navigation}) => {
     const { colors } = useTheme();
@@ -24,27 +24,29 @@ const LoginScreen = ({navigation}) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [valid, setValid] = useState('');
 
     let isLogin = false;
 
     const login =  async function (event) {
         event.preventDefault();
 
-        const account = {
-            phoneNumber: phoneNumber,
-            email: email,
-            password: password
-        };
+            const account = {
+                phoneNumber: phoneNumber,
+                email: email,
+                password: password
+            };
+    
+            await axios.post(`http://192.168.0.108:5000/accounts/login`, account)
+            .then(res => {
+                if (res.data.message === 'OK') isLogin = true;
+            })
+            .catch(err => {
+                console.log(err);            
+            });
+    
+            if (isLogin) navigation.navigate("Home");
 
-        await axois.post(`http://192.168.0.108:5000/accounts/login`, { account })
-        .then(res => {
-            if (res.data.message === 'OK') isLogin = true;
-        })
-        .catch(err => {
-            console.log(err);            
-        });
-
-        if (isLogin) navigation.navigate("Home");
     };
 
     const home = () => {
@@ -78,6 +80,7 @@ const LoginScreen = ({navigation}) => {
                         placeholderTextColor="#666666"
                         style={styles.textInput}
                         autoCapitalize="none"
+                        keyboardType={'numeric'}
                         onChangeText={text => setPhoneNumber(text)}
                     />
                 </View>
@@ -128,7 +131,7 @@ const LoginScreen = ({navigation}) => {
                             borderWidth: 1,
                             marginTop: 15,
                         }]}
-                        onPress={home}
+                        onPress={login}
                     >
                         <Text style={[styles.textSign, {color:'white'}]}>Đăng nhập</Text>
                     </TouchableOpacity>
@@ -142,6 +145,11 @@ const LoginScreen = ({navigation}) => {
                     >
                         <Text style={styles.textSign}>Chưa có tài khoản?</Text>
                     </TouchableOpacity>
+                    <View>
+                        <Text>
+                            { valid }
+                        </Text>
+                    </View>
                 </View>
             </Animatable.View>
         </View>
