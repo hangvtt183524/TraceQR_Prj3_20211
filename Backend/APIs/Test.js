@@ -13,7 +13,7 @@ testRoute.get('/', (req, res) => {
 
 testRoute.post('/test/posta', (req, res) => {
     console.log(req.body.a);
-    return res.status(200).json("post test successfully");
+    return res.status(200).json({ message: "post test successfully" });
 });
 
 module.exports = testRoute;

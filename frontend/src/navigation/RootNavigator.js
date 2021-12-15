@@ -58,7 +58,7 @@ const Home = () => {
 }
 
 const RootNavigator = () => {
-    const isLogin = false;
+    const isLogin = true;
     return (
         <NavigationContainer>
             {isLogin == false ? (

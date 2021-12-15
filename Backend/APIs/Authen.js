@@ -49,20 +49,22 @@ authenRoute.post('/accounts/login', async (req, res) => {
 
 /* api register */
 authenRoute.post('/accounts/register', async (req, res) => {
-    const { cccd, phoneNumber, email, userName, password } = req.body;
+    const { phoneNumber, email, userName, password } = req.body;
 
     try {
-        const existAcc = await AccountSchema.findOne({ $or: [{ cccd: cccd }, { phoneNumber: phoneNumber }, { email: email }] });
-        if (existAcc) {
+        const existAcc = await AccountSchema.findOne({ $or: [{ phoneNumber: phoneNumber }, { email: email }] });
+        //console.log(existAcc);
+        if (existAcc !== null) {
             return res.status(403).json({ code: "43", message: "account existed" });
         } else {
             const encodePassword = await bcrypt.hash(password, 10);
-            await AccountSchema.insertOne({ cccd: cccd, phoneNumber: phoneNumber, email: email, password: encodePassword });
-            
+            const saveAccount = await AccountSchema.create({ phoneNumber: phoneNumber, email: email, userName: userName, password: encodePassword });
+            //console.log(saveAccount);
             return res.status(200).json({ code: "20", message: "OK" });
 
         }
     } catch (err) {
+        console.log(err);
         return res.status(500).json({ code: "50", message: "error database" });
     }
 });
@@ -72,7 +74,7 @@ authenRoute.post('/accounts/logout', authenticateToken, async (req, res) => {
     const { token } = req.body;
 
     try {
-        await AccountSchema.update({ _id: req.currentUser.id });
+        await AccountSchema.updateOne({ _id: req.currentUser.id });
         return res.status(200).json({ code: "20", message: "OK" });
     } catch (err) {
         return res.status(500).json({ code: "50", message: "error database" });

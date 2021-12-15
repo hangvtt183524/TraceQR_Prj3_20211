@@ -23,7 +23,6 @@ const RegisterScreen = ({navigation}) => {
 
   const [hidePass, setHidePass] = useState(true);
   const [hideRetypePass, setHideRetypePass] = useState(true);
-  const [cccd, setCCCD] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,17 +32,14 @@ const RegisterScreen = ({navigation}) => {
   const register = async function(event) {
     event.preventDefault();
 
-    if (!cccd.trim() || !email.trim() || !username.trim() || !password.trim() || !phoneNumber.trim()) {
+    if (!email.trim() || !username.trim() || !password.trim() || !phoneNumber.trim()) {
       Alert.alert('Please fill out all information!');
-    } else if (!isAllDigits(cccd)) {
-      Alert.alert('Invalid CCCD!');
     } else if (!isAllDigits(phoneNumber)) {
       Alert.alert('Invalid Phone Number!');
     } else if (confpassword !== password) {
       Alert.alert('Please confirm password again!');
     } else {
       const newAccount = {
-        cccd: cccd,
         phoneNumber: phoneNumber,
         email: email,
         userName: username,
@@ -77,18 +73,6 @@ const RegisterScreen = ({navigation}) => {
         style={styles.footer}
       >
         <ScrollView>
-          <Text style={styles.text_footer}>Căn cước công dân</Text>
-          <View style={styles.action}>
-            <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
-            <TextInput 
-              placeholder="Số CCCD/CMND"
-              autoCapitalize="none"
-              style={styles.textInput}
-              onChangeText={text => setCCCD(text)}
-              keyboardType={'numeric'}
-            />
-          </View>
-
           <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
             <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
