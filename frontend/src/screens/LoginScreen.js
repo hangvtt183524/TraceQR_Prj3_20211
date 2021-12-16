@@ -44,19 +44,21 @@ const LoginScreen = ({navigation}) => {
                 email: email,
                 password: password
             };
-    
-            await axios.post(`http://192.168.0.108:5000/accounts/login`, account)
+
+            await axios.post(`http://192.168.0.111:5000/accounts/login`, account)
             .then(res => {
-                if (res.data.code === '40') Alert.alert("Wrong account or password!");
+                if (res.data.code === '40a') Alert.alert(res.data.message);
+                else if (res.data.code === '40') Alert.alert("Wrong password!");
                 else if (res.data.code === '50') Alert.alert("Error! Please try again after a few minutes...");
                 else if (res.data.code === '20') {
-                  navigation.navigate('Home');
+                    navigation.navigate('Home');
                 } 
                 else Alert.alert(res.data.message);
             })
             .catch(err => {
-                console.log(err);            
+                console.log(err);           
             });
+
         }
     };
 

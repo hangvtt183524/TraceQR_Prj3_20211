@@ -5,6 +5,7 @@ const authenRoute = express.Router();
 const bcrypt = require('bcrypt');
 const AccountSchema = require('../Models/AccountSchema');
 const { generateAccessToken, authenticateToken } = require('../Middleware/token');
+const e = require('express');
 
 /* verify password */
 const verifyPassword = async (acc, password) => {
@@ -12,8 +13,9 @@ const verifyPassword = async (acc, password) => {
     return validPassword;
 }
 
-const loginAccount = async (acc, password) => {
-    if (!verifyPassword(acc, password)) return res.status(400).json({ code: "40", message: "wrong password" });
+const loginAccount = async (acc, password, res) => {
+    if (acc === null) return res.status(200).json({ code: "40a", message: "Account hasn't registed" });
+    else if (!verifyPassword(acc, password)) return res.status(200).json({ code: "40", message: "wrong password" });
     else {
         const user = { id: acc._id };
         const accessToken = await generateAccessToken(user);
@@ -30,17 +32,18 @@ const loginAccount = async (acc, password) => {
 /* api login */
 authenRoute.post('/accounts/login', async (req, res) => {
     const { phoneNumber, email, password } = req.body;
-
-      try {
+    //console.log(phoneNumber, email, password);
+    try {
         if (phoneNumber && !email) {
             const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber});
-            loginAccount(acc, password);
+            //console.log(acc);
+            loginAccount(acc, password, res);
         } else if (!phoneNumber && email) {
             const acc = await AccountSchema.findOne({ email: email});
-            loginAccount(acc, password);
+            loginAccount(acc, password, res);
         } else {
             const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber, email: email});
-            loginAccount(acc, password);
+            loginAccount(acc, password, res);
         }
     } catch (err) {
         return res.status(500).json({ code: "50", message: "error database" });
@@ -55,7 +58,7 @@ authenRoute.post('/accounts/register', async (req, res) => {
         const existAcc = await AccountSchema.findOne({ $or: [{ phoneNumber: phoneNumber }, { email: email }] });
         //console.log(existAcc);
         if (existAcc !== null) {
-            return res.status(403).json({ code: "43", message: "account existed" });
+            return res.status(200).json({ code: "43", message: "account existed" });
         } else {
             const encodePassword = await bcrypt.hash(password, 10);
             const saveAccount = await AccountSchema.create({ phoneNumber: phoneNumber, email: email, userName: userName, password: encodePassword });

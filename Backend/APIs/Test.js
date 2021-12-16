@@ -12,7 +12,7 @@ testRoute.get('/', (req, res) => {
 });
 
 testRoute.post('/test/posta', (req, res) => {
-    console.log(req.body.a);
+    console.log(req.body.account);
     return res.status(200).json({ message: "post test successfully" });
 });
 
