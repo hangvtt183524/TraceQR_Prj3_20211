@@ -12,7 +12,7 @@ const PlaceSchema = mongoose.Schema(
             longtitude: String, 
             latitude: String
         },
-        phoneNumber: Number,
+        phoneNumber: String,
         accessToken: String,
         createdQRDate: Date,
         isLoginPC: Boolean,

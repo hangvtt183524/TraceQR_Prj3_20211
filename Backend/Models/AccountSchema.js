@@ -5,7 +5,7 @@ const AccountSchema = mongoose.Schema(
         email: String,
         password: String,
         userName: String,
-        phoneNumber: Number,
+        phoneNumber: String,
         accessToken: String,
         isLoginPC: Boolean,
         isLoginPhone: Boolean,

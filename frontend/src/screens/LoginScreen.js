@@ -7,7 +7,8 @@ import {
     StyleSheet,
     TextInput,
     Platform,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import FontAwesom from 'react-native-vector-icons/FontAwesome';
@@ -16,6 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import style_default from '../shared/const';
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import axios from 'axios';
+import isAllDigits from '../Services/checkDigits';
 
 const LoginScreen = ({navigation}) => {
     const { colors } = useTheme();
@@ -26,11 +28,17 @@ const LoginScreen = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [valid, setValid] = useState('');
 
-    let isLogin = false;
 
     const login =  async function (event) {
         event.preventDefault();
 
+        if (!phoneNumber.trim() && !email.trim()) {
+            Alert.alert("Please fill at least your email or phone number");
+        } else if (phoneNumber.trim() && !isAllDigits(phoneNumber)) {
+            Alert.alert('Invalid Phone Number!');
+        } else if (!password.trim()) {
+            Alert.alert("Please enter your password!");
+        } else { 
             const account = {
                 phoneNumber: phoneNumber,
                 email: email,
@@ -39,14 +47,17 @@ const LoginScreen = ({navigation}) => {
     
             await axios.post(`http://192.168.0.108:5000/accounts/login`, account)
             .then(res => {
-                if (res.data.message === 'OK') isLogin = true;
+                if (res.data.code === '40') Alert.alert("Wrong account or password!");
+                else if (res.data.code === '50') Alert.alert("Error! Please try again after a few minutes...");
+                else if (res.data.code === '20') {
+                  navigation.navigate('Home');
+                } 
+                else Alert.alert(res.data.message);
             })
             .catch(err => {
                 console.log(err);            
             });
-    
-            if (isLogin == true) navigation.navigate("Home");
-
+        }
     };
 
     const home = () => {
