@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     header: {
         display: "flex",
         backgroundColor: style_default.THEME_COLOR,
-        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        height: 50
     },
     header_text: {
         color: style_default.WHITE_COLOR,

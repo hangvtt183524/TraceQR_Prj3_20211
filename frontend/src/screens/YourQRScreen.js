@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     qr_button: {
         flex: 2,
         width: '60%',
-        paddingTop: 30,
         display: 'flex',
         justifyContent: 'center',
     },
