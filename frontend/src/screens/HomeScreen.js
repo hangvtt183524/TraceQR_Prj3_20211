@@ -29,7 +29,7 @@ const HomeScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.header_info}>
-          <Text style={styles.header_text}>{global.userName}</Text>
+          <Text style={styles.header_text}>{global.currentUser.userName}</Text>
         </View>
         <View style={styles.header_icon}>
           <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />

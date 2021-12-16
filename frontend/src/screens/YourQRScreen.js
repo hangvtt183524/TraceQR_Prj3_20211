@@ -12,11 +12,11 @@ import Header from "../components/Header";
 const YourQRScreen = () => {
     let isImage = false;
 
-    const [qrcodeUrl, setQrcodeUrl] = useState('init qr');
+    const [qrcodeUrl, setQrcodeUrl] = useState(global.currentUser.userName + ' ' + global.currentUser.id);
     
     const generateQrcode = () => {
         const randomNumber = Math.floor(Math.random() * 100) + 1 ;
-        setQrcodeUrl(randomNumber + 'current user id');
+        setQrcodeUrl(randomNumber + ' ' + global.currentUser.userName + ' ' + global.currentUser.id);
     };
 
     return (
