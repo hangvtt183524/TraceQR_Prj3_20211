@@ -5,9 +5,10 @@ import {
     TouchableOpacity,
     StyleSheet
  } from 'react-native';
- import QRCode from 'react-native-qrcode-svg';
- import style_default from '../shared/const';
- 
+import QRCode from 'react-native-qrcode-svg';
+import style_default from '../shared/const';
+import Header from "../components/Header";
+
 const YourQRScreen = () => {
     let isImage = false;
 
@@ -19,28 +20,71 @@ const YourQRScreen = () => {
     };
 
     return (
-        <View>
-            <Text>YourQR Screen</Text>
-            <QRCode 
-                value={qrcodeUrl}
-                style={styles.qrcode} />
-            <TouchableOpacity
-                onPress={generateQrcode}
-            >
-                <Text>New QR code</Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Header name="Generate your QR code"/>
+            </View>
+            <View style={styles.qrcode}>
+                <Text style={styles.qr_text}>Your QR Code</Text>
+                <QRCode 
+                    value={qrcodeUrl}
+                    size={250}
+                />
+                <TouchableOpacity
+                    onPress={generateQrcode}
+                    style={styles.qr_button}
+                >
+                    <Text style={styles.qr_button_text}>New QR code</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    qrcode: {
-        marginTop: 10,
-        height: 150,
-        width: 150,
-        alignSelf: 'center',
-        borderRadius: 20,
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
+    header: {
+        width: '100%',
+        flex: 2
+    },
+    qrcode: {
+        flex: 6,
+        height: '100%',
+        display: "flex",
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        paddingBottom: 100
+    },
+    qr_text: {
+        fontSize: style_default.TEXT_SIZE,
+        flex: 1
+    },
+    qr_image: {
+        fontSize: 40,
+        flex: 5
+    },
+    qr_button: {
+        flex: 2,
+        width: '60%',
+        paddingTop: 30,
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    qr_button_text: {
+        backgroundColor: style_default.THEME_COLOR,
+        height: '60%',
+        color: style_default.WHITE_COLOR,
+        fontSize: style_default.BUTTON_TEXT_SIZE,
+        textAlign: 'center',
+        paddingTop: 20,
+        borderRadius: 10
+    }
 })
 
 export default YourQRScreen;
