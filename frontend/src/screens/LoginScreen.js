@@ -45,7 +45,7 @@ const LoginScreen = ({navigation}) => {
                 console.log(err);            
             });
     
-            if (isLogin) navigation.navigate("Home");
+            if (isLogin == true) navigation.navigate("Home");
 
     };
 

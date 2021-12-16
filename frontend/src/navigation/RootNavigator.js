@@ -58,17 +58,11 @@ const Home = () => {
 }
 
 const RootNavigator = () => {
-    const isLogin = true;
+    global.isLogin = true;
     return (
         <NavigationContainer>
-            {isLogin == false ? (
             <Stack.Navigator screenOptions={{headerShown: false}}>
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
-                <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-                
-            </Stack.Navigator>
-        ) : (
-            <Stack.Navigator screenOptions={{headerShown: false}}>
                 <Stack.Screen name="Home" component={Home} options={{headerShown: false }} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
@@ -76,11 +70,9 @@ const RootNavigator = () => {
                 <Stack.Screen name="HistoryScreen" component={HistoryScreen} />
                 <Stack.Screen name="YourQRScreen" component={YourQRScreen} />
                 <Stack.Screen name="ScanQRScreen" component={ScanQRScreen} />
-                <Stack.Screen name="LoginScreen" component={LoginScreen} />
                 <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
                 <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
             </Stack.Navigator>
-        )}
         </NavigationContainer>
     )
 }
