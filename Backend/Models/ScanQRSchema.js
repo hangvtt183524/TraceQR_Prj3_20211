@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const ScanQRSchema = mongoose.Schema(
     {
-        _idReference: mongoose.ObjectID,
+        _idReference: String,
         QR: String,
         createdQRDate: Date,
         scanQRList: [
             {
-                _idScanner: mongoose.ObjectID,
+                _idScanner: String,
                 timeScan: Date,
                 locationScan: {
                     longtitude: String,

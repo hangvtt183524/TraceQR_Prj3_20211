@@ -6,10 +6,10 @@ function generateAccessToken(user) {
 }
 
 function authenticateToken(req, res, next) {
-    if (req.body.token) {
-        const token = req.body.token.split(' ')[1];
+    if (req.body.accessToken) {
+        const token = req.body.accessToken;
 
-        if (token == null) return res.status(200).json({ code: "14", message: ""});
+        if (token == null) return res.status(200).json({ code: "14", message: "Expired or Invalid token"});
     
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, currentUser) => {
             //console.log(err);

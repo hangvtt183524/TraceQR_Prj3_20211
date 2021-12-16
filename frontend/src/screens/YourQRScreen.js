@@ -3,20 +3,42 @@ import {
     View,
     Text,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    Alert
  } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import style_default from '../shared/const';
 import Header from "../components/Header";
 
-const YourQRScreen = () => {
-    let isImage = false;
+import axios from 'axios';
+
+const YourQRScreen = ({navigation}) => {
 
     const [qrcodeUrl, setQrcodeUrl] = useState(global.currentUser.userName + ' ' + global.currentUser.id);
     
-    const generateQrcode = () => {
+    const generateQrcode = async () => {
         const randomNumber = Math.floor(Math.random() * 100) + 1 ;
-        setQrcodeUrl(randomNumber + ' ' + global.currentUser.userName + ' ' + global.currentUser.id);
+        const newQRCode = randomNumber + ' ' + global.currentUser.userName + ' ' + global.currentUser.id;
+        setQrcodeUrl(newQRCode);
+
+        const requestData = {
+            id: global.currentUser.id,
+            accessToken: global.currentUser.accessToken,
+            qr: newQRCode
+        }
+
+        await axios.post(`http://192.168.0.111:5000/qrs/generate_qr`, requestData)
+        .then(res => {
+            if (res.data.code !== '20') {
+                Alert.alert(res.data.message);
+            } else {
+                Alert.alert("New QR code is saved");
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
     };
 
     return (

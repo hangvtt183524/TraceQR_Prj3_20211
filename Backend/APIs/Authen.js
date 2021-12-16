@@ -5,7 +5,6 @@ const authenRoute = express.Router();
 const bcrypt = require('bcrypt');
 const AccountSchema = require('../Models/AccountSchema');
 const { generateAccessToken, authenticateToken } = require('../Middleware/token');
-const e = require('express');
 
 /* verify password */
 const verifyPassword = async (acc, password) => {
