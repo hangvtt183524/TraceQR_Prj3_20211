@@ -12,7 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Fontisto } from '@expo/vector-icons';
 import BackButton from '../components/BackButton';
 
 import axios from 'axios';
@@ -66,7 +66,8 @@ const RegisterScreen = ({navigation}) => {
     <View style={styles.container}>
       <BackButton />
       <View style={styles.header}>
-        <Text style={styles.text_header}>Hãy đăng ký tài khoản!</Text>
+        <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
+        <Text style={styles.text_header}>Register</Text>
       </View>
       <Animatable.View
         animation="fadeInUpBig"
@@ -75,7 +76,7 @@ const RegisterScreen = ({navigation}) => {
         <ScrollView>
           <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
+            <Fontisto name="email" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
               placeholder="Email"
               autoCapitalize="none"
@@ -86,9 +87,9 @@ const RegisterScreen = ({navigation}) => {
 
           <Text style={styles.text_footer}>Phone Number</Text>
           <View style={styles.action}>
-            <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
+            <FontAwesome name="phone" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
-              placeholder="Số CCCD/CMND"
+              placeholder="Phone Number"
               autoCapitalize="none"
               style={styles.textInput}
               onChangeText={text => setPhoneNumber(text)}
@@ -107,11 +108,11 @@ const RegisterScreen = ({navigation}) => {
             />
           </View>
 
-          <Text style={styles.text_footer}>Mật khẩu</Text>
+          <Text style={styles.text_footer}>Password</Text>
           <View style={styles.action}>
             <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
-              placeholder="Nhập mật khẩu"
+              placeholder="Password"
               autoCapitalize="none"
               style={styles.textInput}
               secureTextEntry={hidePass ? true : false}
@@ -123,11 +124,11 @@ const RegisterScreen = ({navigation}) => {
               onPress={() => setHidePass(!hidePass)}
             />
           </View>
-          <Text style={styles.text_footer}>Nhập lại mật khẩu</Text>
+          <Text style={styles.text_footer}>Confirm Password</Text>
           <View style={styles.action}>
-            <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />
+            <Feather name="check-square" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
-              placeholder="Nhập lại chính xác mật khẩu"
+              placeholder="Confirm Password"
               autoCapitalize="none"
               style={styles.textInput}
               secureTextEntry={hideRetypePass ? true : false}
@@ -142,7 +143,7 @@ const RegisterScreen = ({navigation}) => {
           <View style={styles.button}>
             <TouchableOpacity style={styles.signIn}
               onPress={register}>
-              <Text style={styles.textSign}>Đăng ký tài khoản</Text>
+              <Text style={styles.textSign}>Register Now</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end',
     paddingHorizontal: 20,
     paddingBottom: 50,
@@ -177,9 +178,10 @@ const styles = StyleSheet.create({
     paddingVertical: 30
   },
   text_header: {
-    color: style_default.WHITE_COLOR,
-    fontSize: 25, 
-    fontWeight: 'bold'
+    color: style_default.WHITE_COLOR, 
+    fontWeight: 'bold',
+    fontSize: 40, 
+    marginLeft: 30,
   },
   text_footer: {
     color: style_default.AUTHEN_COLOR,
@@ -203,9 +205,9 @@ const styles = StyleSheet.create({
     marginTop: 50
   },
   textSign: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: 'white'
+    color: style_default.WHITE_COLOR
   },
   signIn: {
     width: '100%',

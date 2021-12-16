@@ -15,7 +15,7 @@ import FontAwesom from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 import style_default from '../shared/const';
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5, Fontisto } from "@expo/vector-icons";
 import axios from 'axios';
 import isAllDigits from '../Services/checkDigits';
 
@@ -75,8 +75,8 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.container}>
             {/* <StatusBar backgroundColor='#009387' barStyle='light-content'></StatusBar> */}
             <View style={styles.header}>
-                <Text style={styles.text_header}>Sổ sức khỏe điện tử</Text>
-                
+                <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
+                <Text style={styles.text_header}>Login</Text>
             </View>
             <Animatable.View 
                 animation='fadeInUpBig'
@@ -86,11 +86,11 @@ const LoginScreen = ({navigation}) => {
             >
                 <Text style={[styles.text_footer, {
                     color: colors.text
-                }]}>Số điện thoại</Text>
+                }]}>Phone Number</Text>
                 <View style={styles.action}>
-                    <FontAwesom name="user-o" color={colors.text} size={20} />
+                    <FontAwesom name="phone" color={colors.text} size={20} />
                     <TextInput 
-                        placeholder="Số điện thoại"
+                        placeholder="Phone Number"
                         placeholderTextColor="#666666"
                         style={styles.textInput}
                         autoCapitalize="none"
@@ -103,7 +103,7 @@ const LoginScreen = ({navigation}) => {
                     color: colors.text
                 }]}>Email</Text>
                 <View style={styles.action}>
-                    <FontAwesom name="user-o" color={colors.text} size={20} />
+                    <Fontisto name="email" color={colors.text} size={20} />
                     <TextInput 
                         placeholder="Email"
                         placeholderTextColor="#666666"
@@ -115,12 +115,12 @@ const LoginScreen = ({navigation}) => {
 
                 <Text style={[styles.text_footer, {
                     color: colors.text
-                }]}>Mật khẩu</Text>
+                }]}>Password</Text>
                 <View style={styles.action}>
                     <Feather name="lock" color={colors.text} size={20} />
                     
                     <TextInput 
-                        placeholder="Mật khẩu"
+                        placeholder="Password"
                         placeholderTextColor="#666666"
                         style={[styles.textInput, {
                             color: colors.text
@@ -136,7 +136,7 @@ const LoginScreen = ({navigation}) => {
                     />
                 </View>
                 <TouchableOpacity>
-                    <Text style={{color: '#666666', marginTop: 15}}>Quên mật khẩu?</Text>
+                    <Text style={{color: '#666666', marginTop: 15}}>Forgot password?</Text>
                 </TouchableOpacity>
                 <View style={styles.button}>
                     <TouchableOpacity
@@ -147,7 +147,7 @@ const LoginScreen = ({navigation}) => {
                         }]}
                         onPress={login}
                     >
-                        <Text style={[styles.textSign, {color:'white'}]}>Đăng nhập</Text>
+                        <Text style={[styles.textSign, {color:'white'}]}>Login</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.signUp, {
@@ -157,13 +157,8 @@ const LoginScreen = ({navigation}) => {
                         }]}
                         onPress={register}
                     >
-                        <Text style={styles.textSign}>Chưa có tài khoản?</Text>
+                        <Text style={styles.textSign}>Register Account</Text>
                     </TouchableOpacity>
-                    <View>
-                        <Text>
-                            { valid }
-                        </Text>
-                    </View>
                 </View>
             </Animatable.View>
         </View>
@@ -181,7 +176,7 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'flex-end',
         paddingHorizontal: 20,
         paddingBottom: 50,
@@ -190,8 +185,9 @@ const styles = StyleSheet.create({
     text_header: {
         color: style_default.WHITE_COLOR,
         fontWeight: 'bold',
-        fontSize: 30.,
-        
+        fontSize: 40, 
+        marginLeft: 30,
+        marginTop: 50
     },
     footer: {
         flex: 3,
