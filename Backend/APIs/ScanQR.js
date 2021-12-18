@@ -10,10 +10,22 @@ const { authenticateToken } = require('../Middleware/token');
 /* generate qr api */
 qrcodeRoute.post('/qrs/generate_qr', authenticateToken, async (req, res) => {
     const { id, accessToken, qr } = req.body;
-    if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid"});
+    if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
     else {
         await ScanQRSchema.create({ _idReference: id, QR: qr, createdQRDate: new Date() });
-        return res.status(200).json({ code: "20", message: "OK"})
+        return res.status(200).json({ code: "20", message: "OK" });
+    }
+});
+
+qrcodeRoute.post('qrs/save_qr', authenticateToken, async (req, res) => {
+    const { id, accessToken, qr } = req.body;
+    if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
+    else {
+        await ScanQRSchema.updateOne(
+            { QR: qr },
+            { $push: { 'scanQRList': { _idScanner: id, timeScan: new Date(), locationScan: {} } } }
+        );
+        return res.status(200).json({ code: "20", message: "OK" });
     }
 });
 
