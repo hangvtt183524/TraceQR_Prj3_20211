@@ -4,8 +4,6 @@ const PlaceSchema = mongoose.Schema(
     {
         password: String,
         email: String,
-        type: Number,
-        typeName: String,
         name: String,
         address: String,
         location: {

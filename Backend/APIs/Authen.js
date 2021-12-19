@@ -72,23 +72,45 @@ authenRoute.post('/accounts/login', async (req, res) => {
 
 /* api register */
 authenRoute.post('/accounts/register', async (req, res) => {
-    const { phoneNumber, email, userName, password } = req.body;
+    const { phoneNumber, email, userName, password, type } = req.body;
 
-    try {
-        const existAcc = await AccountSchema.findOne({ $or: [{ phoneNumber: phoneNumber }, { email: email }] });
-        //console.log(existAcc);
-        if (existAcc !== null) {
-            return res.status(200).json({ code: "43", message: "account existed" });
-        } else {
-            const encodePassword = await bcrypt.hash(password, 10);
-            const saveAccount = await AccountSchema.create({ phoneNumber: phoneNumber, email: email, userName: userName, password: encodePassword });
-            //console.log(saveAccount);
-            return res.status(200).json({ code: "20", message: "OK" });
-
+    if (type === 'Username') {
+        try {
+            const existAcc = await AccountSchema.findOne({ $or: [{ phoneNumber: phoneNumber }, { email: email }] });
+            //console.log(existAcc);
+            if (existAcc !== null) {
+                return res.status(200).json({ code: "43", message: "account existed" });
+            } else {
+                const encodePassword = await bcrypt.hash(password, 10);
+                const saveAccount = await AccountSchema.create({ phoneNumber: phoneNumber, email: email, userName: userName, password: encodePassword });
+                //console.log(saveAccount);
+                return res.status(200).json({ code: "20", message: "OK" });
+    
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ code: "50", message: "error database" });
         }
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ code: "50", message: "error database" });
+    }
+    else if (type === 'Address') {
+        try {
+            const existAcc = await PlaceSchema.findOne({ $or: [{ phoneNumber: phoneNumber }, { email: email }] });
+            //console.log(existAcc);
+            if (existAcc !== null) {
+                return res.status(200).json({ code: "43", message: "account existed" });
+            } else {
+                const encodePassword = await bcrypt.hash(password, 10);
+                const saveAccount = await PlaceSchema.create({ phoneNumber: phoneNumber, email: email, name: userName, address: userName, password: encodePassword });
+                //console.log(saveAccount);
+                return res.status(200).json({ code: "20", message: "OK" });
+    
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ code: "50", message: "error database" });
+        }
+    } else {
+        return res.status(200).json({ code: "50", message: "Something wrong! Please try again!"});
     }
 });
 

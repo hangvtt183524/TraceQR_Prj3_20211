@@ -28,6 +28,7 @@ const RegisterScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confpassword, setConfpassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [type, setType] = useState(global.userTypeLabel);
 
   const register = async function(event) {
     event.preventDefault();
@@ -43,7 +44,8 @@ const RegisterScreen = ({navigation}) => {
         phoneNumber: phoneNumber,
         email: email,
         userName: username,
-        password: password
+        password: password,
+        type: type
       };
 
       await axios.post(`http://192.168.0.111:5000/accounts/register`, newAccount)
@@ -97,16 +99,28 @@ const RegisterScreen = ({navigation}) => {
             />
           </View>
 
-          <Text style={styles.text_footer}>Username</Text>
+          <Text style={styles.text_footer}>{type}</Text>
+          { type === 'Username' ? 
           <View style={styles.action}>
             <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
-              placeholder="Username"
+              placeholder={type}
+              autoCapitalize="none"
+              style={styles.textInput}
+              onChangeText={text => setUsername(text)}
+            />
+          </View> :
+                              
+          <View style={styles.action}>
+            <FontAwesome name="address-card-o" color={style_default.AUTHEN_COLOR} size={20} />
+            <TextInput 
+              placeholder={type}
               autoCapitalize="none"
               style={styles.textInput}
               onChangeText={text => setUsername(text)}
             />
           </View>
+          }
 
           <Text style={styles.text_footer}>Password</Text>
           <View style={styles.action}>
