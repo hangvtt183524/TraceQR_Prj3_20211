@@ -18,7 +18,17 @@ import style_default from '../shared/const';
 import { FontAwesome, FontAwesome5, Fontisto } from "@expo/vector-icons";
 import axios from 'axios';
 import isAllDigits from '../Services/checkDigits';
+import RadioGroup from 'react-native-custom-radio-group';
 
+const radioGroupList = [
+    {
+    label: 'Private User',
+    value: 'private_user'
+    }, {
+    label: 'Public Place',
+    value: 'public_place'
+    }
+];
 const LoginScreen = ({navigation}) => {
     const { colors } = useTheme();
 
@@ -27,6 +37,7 @@ const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [valid, setValid] = useState('');
+    const [type, setType] = useState('');
 
 
     const login =  async function (event) {
@@ -38,11 +49,14 @@ const LoginScreen = ({navigation}) => {
             Alert.alert('Invalid Phone Number!');
         } else if (!password.trim()) {
             Alert.alert("Please enter your password!");
+        } else if (type === '') {
+            Alert.alert("Please choose your role: Private user or Public place?");
         } else { 
             const account = {
                 phoneNumber: phoneNumber,
                 email: email,
-                password: password
+                password: password,
+                type: type
             };
 
             await axios.post(`http://192.168.0.111:5000/accounts/login`, account)
@@ -71,6 +85,11 @@ const LoginScreen = ({navigation}) => {
         navigation.navigate("RegisterScreen");
     };
 
+    const changeUserType = (value) => {
+        if (value === 'private_user') setType('private_user');
+        else setType('public_place');
+    }
+
     return (
         <View style={styles.container}>
             {/* <StatusBar backgroundColor='#009387' barStyle='light-content'></StatusBar> */}
@@ -84,6 +103,15 @@ const LoginScreen = ({navigation}) => {
                     backgroundColor: colors.background
                 }]}
             >
+                <View style={styles.radio_group}>
+                    <Text style={[styles.text_footer, {color: colors.text, fontSize: 20}]}>You are?</Text>
+                    <RadioGroup 
+                    radioGroupList={radioGroupList}
+                    buttonContainerStyle={styles.radio_button}
+                    buttonContainerActiveStyle={{backgroundColor: style_default.THEME_COLOR}}
+                    onChange={changeUserType}
+                    />
+                </View>
                 <Text style={[styles.text_footer, {
                     color: colors.text
                 }]}>Phone Number</Text>
@@ -216,7 +244,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 50
+        marginTop: 40
     },
     textSign: {
         fontSize: 18,
@@ -237,5 +265,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 10,
         
+    },
+    radio_group: {
+        height: 30,
+        marginBottom: 40
+    },
+    radio_button: {
+        borderColor: style_default.THEME_COLOR,
+        height: '100%',
+        width: 150,
+        borderRadius: 10,
+        borderWidth: 1
     }
 });
