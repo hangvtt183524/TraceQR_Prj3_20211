@@ -4,6 +4,7 @@ const express = require('express');
 const authenRoute = express.Router();
 const bcrypt = require('bcrypt');
 const AccountSchema = require('../Models/AccountSchema');
+const PlaceSchema = require('../Models/PlaceSchema');
 const { generateAccessToken, authenticateToken } = require('../Middleware/token');
 
 /* verify password */
@@ -30,22 +31,42 @@ const loginAccount = async (acc, password, res) => {
 
 /* api login */
 authenRoute.post('/accounts/login', async (req, res) => {
-    const { phoneNumber, email, password } = req.body;
+    const { phoneNumber, email, password, type } = req.body;
     //console.log(phoneNumber, email, password);
-    try {
-        if (phoneNumber && !email) {
-            const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber});
-            //console.log(acc);
-            loginAccount(acc, password, res);
-        } else if (!phoneNumber && email) {
-            const acc = await AccountSchema.findOne({ email: email});
-            loginAccount(acc, password, res);
-        } else {
-            const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber, email: email});
-            loginAccount(acc, password, res);
+    if (type === 'private_user') {
+        try {
+            if (phoneNumber && !email) {
+                const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber});
+                //console.log(acc);
+                loginAccount(acc, password, res);
+            } else if (!phoneNumber && email) {
+                const acc = await AccountSchema.findOne({ email: email});
+                loginAccount(acc, password, res);
+            } else {
+                const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber, email: email});
+                loginAccount(acc, password, res);
+            }
+        } catch (err) {
+            return res.status(500).json({ code: "50", message: "error database" });
         }
-    } catch (err) {
-        return res.status(500).json({ code: "50", message: "error database" });
+    } else if (type === 'public_place') {
+        try {
+            if (phoneNumber && !email) {
+                const acc = await PlaceSchema.findOne({ phoneNumber: phoneNumber});
+                //console.log(acc);
+                loginAccount(acc, password, res);
+            } else if (!phoneNumber && email) {
+                const acc = await PlaceSchema.findOne({ email: email});
+                loginAccount(acc, password, res);
+            } else {
+                const acc = await PlaceSchema.findOne({ phoneNumber: phoneNumber, email: email});
+                loginAccount(acc, password, res);
+            }
+        } catch (err) {
+            return res.status(500).json({ code: "50", message: "error database" });
+        }
+    } else {
+        return res.status(200).json({ code: "50", message: "Something wrong! Please try again!"});
     }
 });
 

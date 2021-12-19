@@ -82,7 +82,10 @@ const LoginScreen = ({navigation}) => {
     };
 
     const register = () => {
-        navigation.navigate("RegisterScreen");
+        if (type === '') Alert.alert("Please choose your role: Private user or Public place?");
+        else {
+            navigation.navigate("RegisterScreen");
+        }
     };
 
     const changeUserType = (value) => {
