@@ -13,6 +13,7 @@ import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import HistoryScreen from "../screens/HistoryScreen";
 import YourQRScreen from "../screens/YourQRScreen";
 import ScanQRScreen from "../screens/ScanQRScreen";
+import MapScreen from "../screens/MapScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -72,6 +73,7 @@ const RootNavigator = () => {
                 <Stack.Screen name="ScanQRScreen" component={ScanQRScreen} />
                 <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
                 <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                <Stack.Screen name="MapScreen" component={MapScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -14,6 +14,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { FontAwesome5, Fontisto } from '@expo/vector-icons';
 import BackButton from '../components/BackButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 import axios from 'axios';
 import style_default from '../shared/const';
@@ -64,6 +65,10 @@ const RegisterScreen = ({navigation}) => {
 
   };
 
+  const goToMap = () => {
+    navigation.navigate("MapScreen");
+  };
+
   return (
     <View style={styles.container}>
       <BackButton />
@@ -110,15 +115,25 @@ const RegisterScreen = ({navigation}) => {
               onChangeText={text => setUsername(text)}
             />
           </View> :
-                              
-          <View style={styles.action}>
-            <FontAwesome name="address-card-o" color={style_default.AUTHEN_COLOR} size={20} />
-            <TextInput 
-              placeholder={type}
-              autoCapitalize="none"
-              style={styles.textInput}
-              onChangeText={text => setUsername(text)}
-            />
+          <View style={{marginBottom: 25}}>                  
+            <View style={[styles.action, {
+              marginBottom: 10
+            }]}>
+              <FontAwesome name="address-card-o" color={style_default.AUTHEN_COLOR} size={20} />
+              <TextInput 
+                placeholder={type}
+                autoCapitalize="none"
+                style={styles.textInput}
+                onChangeText={text => setUsername(text)}
+              />
+            </View>
+            <View>
+              <TouchableOpacity style={styles.gotomap}
+                onPress={goToMap}>
+                <Text style={styles.textSign}>Mark your location in map</Text>
+                <MaterialIcons name='navigate-next' color={style_default.WHITE_COLOR} size={40} />
+              </TouchableOpacity>
+            </View>
           </View>
           }
 
@@ -232,5 +247,17 @@ const styles = StyleSheet.create({
     borderColor: style_default.THEME_COLOR,
     borderWidth: 1,
     backgroundColor: style_default.THEME_COLOR,
+  },
+  gotomap: {
+    width: '80%',
+    height: 40,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderColor: style_default.THEME_COLOR,
+    borderWidth: 1,
+    backgroundColor: style_default.THEME_COLOR,
+    marginLeft: 70,
+    flexDirection: 'row'
   }
 });
