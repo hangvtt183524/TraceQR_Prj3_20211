@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
     View,
     Text,
@@ -7,11 +7,24 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import Header from "../components/Header";
+import { 
+    Marker,
+    Circle
+} from 'react-native-maps';
+
 import style_default from '../shared/const';
 
 const MapScreen = ({navigation}) => {
+
+    const [mark, setMark] = useState({latitude: 21.028511, longitude: 105.804817});
     const completeMark = () => {
+        global.location = mark;
         navigation.navigate('RegisterScreen');
+    };
+    const pressMap = (event) => {
+        const lat = event.nativeEvent.coordinate.latitude;
+        const long = event.nativeEvent.coordinate.longitude;
+        setMark({latitude: lat, longitude: long});
     };
 
     return (
@@ -27,7 +40,18 @@ const MapScreen = ({navigation}) => {
                     longitude: 105.804817,
                     latitudeDelta: 0.015,
                     longitudeDelta: 0.0121,
-                }}/>
+                }}
+                onPress={pressMap}
+                >
+                    <Marker
+                        coordinate={mark}
+                        draggable={true}
+
+                    />
+                        <Circle center={mark}
+                            radius={70} />
+                    
+                </MapView>
                 <View style={styles.action}>
                     <TouchableOpacity style={styles.button}
                         onPress={completeMark}>

@@ -30,6 +30,7 @@ const RegisterScreen = ({navigation}) => {
   const [confpassword, setConfpassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [type, setType] = useState(global.userTypeLabel);
+  const [address, setAddress] = useState('');
 
   const register = async function(event) {
     event.preventDefault();
@@ -40,13 +41,17 @@ const RegisterScreen = ({navigation}) => {
       Alert.alert('Invalid Phone Number!');
     } else if (confpassword !== password) {
       Alert.alert('Please confirm password again!');
+    } else if (type === 'Address' && !address.trim()) {
+      Alert.alert('Please fill out address!');
     } else {
       const newAccount = {
         phoneNumber: phoneNumber,
         email: email,
         userName: username,
+        address: address,
         password: password,
-        type: type
+        type: type,
+        location: global.location
       };
 
       await axios.post(`http://192.168.0.111:5000/accounts/register`, newAccount)
@@ -104,8 +109,7 @@ const RegisterScreen = ({navigation}) => {
             />
           </View>
 
-          <Text style={styles.text_footer}>{type}</Text>
-          { type === 'Username' ? 
+          <Text style={styles.text_footer}>Username</Text>
           <View style={styles.action}>
             <FontAwesome name="user-o" color={style_default.AUTHEN_COLOR} size={20} />
             <TextInput 
@@ -114,17 +118,20 @@ const RegisterScreen = ({navigation}) => {
               style={styles.textInput}
               onChangeText={text => setUsername(text)}
             />
-          </View> :
-          <View style={{marginBottom: 25}}>                  
+          </View>
+          { type === 'Username' ? 
+          <View></View>:
+          <View style={{marginBottom: 25}}>   
+            <Text style={styles.text_footer}>Address</Text>               
             <View style={[styles.action, {
               marginBottom: 10
             }]}>
               <FontAwesome name="address-card-o" color={style_default.AUTHEN_COLOR} size={20} />
               <TextInput 
-                placeholder={type}
+                placeholder={'Address'}
                 autoCapitalize="none"
                 style={styles.textInput}
-                onChangeText={text => setUsername(text)}
+                onChangeText={text => setAddress(text)}
               />
             </View>
             <View>

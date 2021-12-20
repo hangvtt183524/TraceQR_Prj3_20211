@@ -13,7 +13,7 @@ const verifyPassword = async (acc, password) => {
     return validPassword;
 }
 
-const loginAccount = async (acc, password, res) => {
+const loginAccount = async (acc, password, res, type) => {
     if (acc === null) return res.status(200).json({ code: "40a", message: "Account hasn't registed" });
     else if (!verifyPassword(acc, password)) return res.status(200).json({ code: "40", message: "wrong password" });
     else {
@@ -21,6 +21,9 @@ const loginAccount = async (acc, password, res) => {
         const accessToken = await generateAccessToken(user);
 
         const updateLogin = await AccountSchema.updateOne({ _id: acc._id }, { accessToken: accessToken });
+        let userName;
+        if (type === 'private_user') userName = acc.userName;
+        else userName = acc.name;
         return res.status(200).json({ code: "20", message: "OK", data: {
                 id: acc._id,
                 userName: acc.userName,
@@ -38,13 +41,13 @@ authenRoute.post('/accounts/login', async (req, res) => {
             if (phoneNumber && !email) {
                 const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber});
                 //console.log(acc);
-                loginAccount(acc, password, res);
+                loginAccount(acc, password, res, type);
             } else if (!phoneNumber && email) {
                 const acc = await AccountSchema.findOne({ email: email});
-                loginAccount(acc, password, res);
+                loginAccount(acc, password, res, type);
             } else {
                 const acc = await AccountSchema.findOne({ phoneNumber: phoneNumber, email: email});
-                loginAccount(acc, password, res);
+                loginAccount(acc, password, res, type);
             }
         } catch (err) {
             return res.status(500).json({ code: "50", message: "error database" });
@@ -54,13 +57,13 @@ authenRoute.post('/accounts/login', async (req, res) => {
             if (phoneNumber && !email) {
                 const acc = await PlaceSchema.findOne({ phoneNumber: phoneNumber});
                 //console.log(acc);
-                loginAccount(acc, password, res);
+                loginAccount(acc, password, res, type);
             } else if (!phoneNumber && email) {
                 const acc = await PlaceSchema.findOne({ email: email});
-                loginAccount(acc, password, res);
+                loginAccount(acc, password, res, type);
             } else {
                 const acc = await PlaceSchema.findOne({ phoneNumber: phoneNumber, email: email});
-                loginAccount(acc, password, res);
+                loginAccount(acc, password, res, type);
             }
         } catch (err) {
             return res.status(500).json({ code: "50", message: "error database" });
@@ -72,7 +75,7 @@ authenRoute.post('/accounts/login', async (req, res) => {
 
 /* api register */
 authenRoute.post('/accounts/register', async (req, res) => {
-    const { phoneNumber, email, userName, password, type } = req.body;
+    const { phoneNumber, email, userName, address, password, type, location } = req.body;
 
     if (type === 'Username') {
         try {
@@ -100,7 +103,7 @@ authenRoute.post('/accounts/register', async (req, res) => {
                 return res.status(200).json({ code: "43", message: "account existed" });
             } else {
                 const encodePassword = await bcrypt.hash(password, 10);
-                const saveAccount = await PlaceSchema.create({ phoneNumber: phoneNumber, email: email, name: userName, address: userName, password: encodePassword });
+                const saveAccount = await PlaceSchema.create({ phoneNumber: phoneNumber, email: email, name: userName, address: address, password: encodePassword, location: location });
                 //console.log(saveAccount);
                 return res.status(200).json({ code: "20", message: "OK" });
     
