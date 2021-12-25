@@ -7,7 +7,7 @@ const ScanQRSchema = mongoose.Schema(
         createdQRDate: Date,
         _idScanner: String,
         timeScan: Date,
-        longtitude: String,
+        longitude: String,
         latitude: String
     }
 );
