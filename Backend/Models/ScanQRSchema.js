@@ -6,7 +6,8 @@ const ScanQRSchema = mongoose.Schema(
         QR: String,
         createdQRDate: Date,
         _idScanner: String,
-        timeScan: Date,
+        dateScan: String,
+        timeScan: String,
         longitude: String,
         latitude: String
     }

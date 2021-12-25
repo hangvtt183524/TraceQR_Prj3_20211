@@ -66,6 +66,7 @@ const LoginScreen = ({navigation}) => {
                 else if (res.data.code === '50') Alert.alert("Error! Please try again after a few minutes...");
                 else if (res.data.code === '20') {
                     global.currentUser = res.data.data;
+                    //console.log(global.currentUser);
                     navigation.navigate('Home');
                 } 
                 else Alert.alert(res.data.message);

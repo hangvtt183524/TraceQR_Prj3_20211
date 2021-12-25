@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
     View,
     Text,
     StyleSheet,
     ScrollView,
     TouchableOpacity,
-    Modal
+    Modal,
+    Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -15,6 +16,7 @@ import {
     Circle
 } from 'react-native-maps';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import HistoryNode from "../components/HistoryNode";
 import style_default from '../shared/const';
 import Header from "../components/Header";
 
@@ -36,21 +38,76 @@ const months = {
 }
 const HistoryScreen = ({navigation}) => {
 
-    const [datetime, setDatetime] = useState('14/04/2000');
+    const [datetime, setDatetime] = useState(null);
+    const [selectDatetime, setSelectDatetime] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [inforMessage, setInforMessage] = useState(null);
+    const [historyNode, setHistoryNode] = useState(null);
+
+    useEffect(() => {
+        //const dateNow = new Date();
+        //setDatetime(dateNow.getDate() + '/' + dateNow.getMonth() + '/' + dateNow.getFullYear());
+        getListHistory();
+    }, [datetime]);
+
+    useEffect(() => {
+        const dateNow = new Date();
+        setDatetime(dateNow.getDate() + '/' + dateNow.getMonth() + '/' + dateNow.getFullYear());
+        getListHistory();
+    }, []);
+
+    useState(() => {
+        //console.log("change");
+    }, [historyNode]);
 
     const showCalendar = () => {
         setShowModal(true);
     }; 
 
     const onDateChange = function(date) {
-        const selectDate = date.toString().split(" ");
-        setDatetime(selectDate[2] + "/" + months[selectDate[1]] + "/" + selectDate[3]);
+        setSelectDatetime(date);
     };
 
-    const selectDate = () => {
+    const selectDate = async () => {
+        const selectDate = selectDatetime.toString().split(" ");
+        setDatetime(selectDate[2] + "/" + months[selectDate[1]] + "/" + selectDate[3]);
         setShowModal(false);
-    }
+    };
+
+    const getListHistory = async () => {
+        const requestData = {
+            id: global.currentUser.id,
+            accessToken: global.currentUser.accessToken,
+            datetime: datetime
+        }
+        //console.log(datetime);
+        await axios.post(`http://192.168.0.111:5000/qrs/list_qrs_place`, requestData)
+        .then(res => {
+            if (res.data.code === '40a') {
+                setInforMessage(res.data.message);
+                setHistoryNode([]);
+                //console.log(res.data.message);
+            }
+            else if (res.data.code === '20') {
+                let historyRes = [];
+                res.data.data.forEach((ele) => {
+                    let count = 0;
+                    let qr;
+                    let placeName = '';
+                    qr = ele.QR.split(" ");
+                    for (let i=1; i<qr.length-1; i++) placeName = placeName + qr[i] + ' ';
+                    historyRes.push(<HistoryNode key={count++} placeName={placeName} dateScan={ele.dateScan} timeScan={ele.timeScan} placeId={ele._idReference} />);
+                }); 
+                setHistoryNode(historyRes);
+                //console.log(historyNode.length);
+            } else {
+                Alert.alert(res.data.message);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -92,7 +149,7 @@ const HistoryScreen = ({navigation}) => {
                         </View>
                     </View>
                     <ScrollView style={styles.info_body}>
-                        <Text>No information</Text>
+                        {historyNode}
                     </ScrollView>
                 </View>
             </View>

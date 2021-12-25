@@ -35,7 +35,7 @@ const ScanQRScreen = () => {
         //console.log(type, data);
     };
 
-    const saveQR = async () => {
+    const saveQR = async function() {
 
         const requestData = {
             id: global.currentUser.id,
@@ -43,6 +43,7 @@ const ScanQRScreen = () => {
             qr: text
         }
 
+        console.log(requestData);
         await axios.post(`http://192.168.0.111:5000/qrs/save_qr`, requestData)
         .then(res => {
             if (res.data.code !== '20') {

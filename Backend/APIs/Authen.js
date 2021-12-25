@@ -26,7 +26,7 @@ const loginAccount = async (acc, password, res, type) => {
         else userName = acc.name;
         return res.status(200).json({ code: "20", message: "OK", data: {
                 id: acc._id,
-                userName: acc.userName,
+                userName: userName,
                 accessToken: accessToken
         }});
     }
