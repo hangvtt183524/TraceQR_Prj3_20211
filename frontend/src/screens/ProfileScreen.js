@@ -23,7 +23,11 @@ const ProfileScreen = ({navigation}) => {
 
     const changePassword = () => {
         navigation.navigate("ChangePasswordScreen");
-    }
+    };
+
+    const updateInfor = () => {
+        navigation.navigate("ChangeInforScreen");
+    };
 
     return (
         <ScrollView>
@@ -40,27 +44,27 @@ const ProfileScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.options}>
-                <TouchableOpacity style={styles.option}>
+                <TouchableOpacity style={styles.option} onPress={updateInfor}>
                     <MaterialIcons name='person' size={40} style={styles.iconOption} />
-                    <Text style={styles.textOption}>Thông tin cá nhân</Text>
+                    <Text style={styles.textOption}>Update private information</Text>
                     <MaterialIcons name='arrow-forward-ios' size={20} style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={{borderColor: 'grey', borderWidth: 0.5}}></View>
                 <TouchableOpacity style={styles.option} onPress={changePassword}>
                     <MaterialIcons name='settings' size={40} style={styles.iconOption} />
-                    <Text style={styles.textOption}>Đổi mật khẩu</Text>
+                    <Text style={styles.textOption}>Change password</Text>
                     <MaterialIcons name='arrow-forward-ios' size={20} style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={{borderColor: 'grey', borderWidth: 0.5}}></View>
                 <TouchableOpacity style={styles.option}>
                     <MaterialIcons name='info' size={40} style={styles.iconOption} />
-                    <Text style={styles.textOption}>Giới thiệu</Text>
+                    <Text style={styles.textOption}>About app</Text>
                     <MaterialIcons name='arrow-forward-ios' size={20} style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={{borderColor: 'grey', borderWidth: 0.5}}></View>
                 <TouchableOpacity style={styles.option} onPress={logout}>
                     <MaterialIcons name='logout' size={40} style={styles.iconOption} />
-                    <Text style={styles.textOption}>Đăng xuất</Text>
+                    <Text style={styles.textOption}>Logout</Text>
                     <MaterialIcons name='arrow-forward-ios' size={20} style={styles.arrow} />
                 </TouchableOpacity>
                 

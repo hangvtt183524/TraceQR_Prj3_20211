@@ -63,7 +63,7 @@ const findExactPlace = async (listPlace) => {
                 element.location = placeInfo.location;
 
                 returnListPlace.push(element);
-                console.log('return: ', returnListPlace);
+                //console.log('return: ', returnListPlace);
             }
         }  
     } 

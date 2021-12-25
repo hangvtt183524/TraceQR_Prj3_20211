@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -12,6 +12,8 @@ import FunctionHome from "../components/FunctionHome";
 import style_default from '../shared/const';
 
 const HomeScreen = ({navigation}) => {
+
+  const [hasWarning, setWarning] = useState(true);
 
   const toYourQR = () => {
     navigation.navigate('YourQRScreen');
@@ -36,15 +38,22 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
       <View style={styles.body}>
-        <View  style={styles.body_function}>
-          <FunctionHome name="Scan QR" event={toScanQR} />
+        <View style={styles.body_main}>
+          <View  style={styles.body_function}>
+            <FunctionHome name="Scan QR" event={toScanQR} />
+          </View>
+          <View  style={styles.body_function}>
+            <FunctionHome name="History" event={toHistory} />
+          </View>
+          <View  style={styles.body_function}>
+            <FunctionHome name="YourQR" event={toYourQR} />
+          </View>
         </View>
-        <View  style={styles.body_function}>
-          <FunctionHome name="History" event={toHistory} />
-        </View>
-        <View  style={styles.body_function}>
-          <FunctionHome name="YourQR" event={toYourQR} />
-        </View>
+        {hasWarning ? 
+        <View style={styles.warning}>
+          <MaterialCommunityIcons name="message-plus" color='#ab2121' size={40} />
+        </View> : <View></View>
+        }
       </View>
     </View>
   )
@@ -83,7 +92,18 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingTop: 30,
+    alignItems: 'center'
+  },
+  warning: {
+    flex: 0.5,
+    width: '50%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginLeft: 20
+  },
+  body_main: {
+    flex: 5,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignContent: 'space-around',
