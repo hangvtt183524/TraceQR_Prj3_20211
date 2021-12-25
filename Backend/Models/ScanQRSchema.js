@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const ScanQRSchema = mongoose.Schema(
     {
-        _idReference: String,
+        _idReference: {
+            type: mongoose.Types.ObjectId,
+            ref: 'PlaceSchema'
+        },
         QR: String,
         createdQRDate: Date,
         _idScanner: String,

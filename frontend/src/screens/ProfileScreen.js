@@ -1,12 +1,24 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from "react-native";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import color_default from '../shared/const';
+import style_default from '../shared/const';
+
+import axios from "axios";
 
 const ProfileScreen = ({navigation}) => {
 
-    const logout = () => {
-        navigation.navigate("LoginScreen");
+    const logout = async () => {
+        await axios.post(`http://192.168.0.111:5000/accounts/logout`, { accessToken: global.currentUser.accessToken })
+        .then(res => {
+            if (res.data.code === '20') navigation.navigate("LoginScreen");
+            else Alert.alert(res.data.message);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        
     };
 
     const changePassword = () => {
@@ -18,26 +30,12 @@ const ProfileScreen = ({navigation}) => {
             <View>
                 <View style={styles.top}>
                     <View style={styles.info}>
-                        <Image
-                        source={{uri:'https://scontent.fhph1-3.fna.fbcdn.net/v/t39.30808-1/c0.13.540.541a/s320x320/250961125_3086202304961539_1705525757844733315_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=7206a8&_nc_ohc=iqJi7cLPIs4AX8J9iG0&_nc_ht=scontent.fhph1-3.fna&oh=3fb66af09cd346890c8e7d2bf2e3c1eb&oe=619A6A4D'}}
-                        style={styles.avatar}
-                        />
                         <View style={styles.textInfo}>
-                            <Text style={styles.name}>Vũ Thị Thu Hằng</Text>
-                            <Text style={styles.phoneNumber}>0987654321</Text>
+                            <Text style={styles.name}>{global.currentUser.userName}</Text>
                         </View>
                     </View>
-                    <View style={{flexDirection: 'column'}}>
-                        <Image
-                        source={{uri:'https://ps.w.org/doqrcode/assets/icon-256x256.png?rev=2143781'}}
-                        style={styles.qrcode}
-                        />
-                        <Text
-                        style={{alignSelf: 'center',
-                        paddingTop: 10,
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        color: 'white'}}>Mã sổ sức khỏe</Text>
+                    <View>
+                        <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={120} />
                     </View>
                 </View>
             </View>
@@ -79,7 +77,9 @@ const styles = StyleSheet.create({
         backgroundColor: color_default.THEME_COLOR,
         height: 310,
         flexDirection: 'column',
-        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
+        
     },
     info: {
         height: 80,
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     },
     textInfo: {
         flexDirection: 'column',
-        padding: 20,
         justifyContent: 'center',
     },
     name: {

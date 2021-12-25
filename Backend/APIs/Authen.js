@@ -119,13 +119,13 @@ authenRoute.post('/accounts/register', async (req, res) => {
 
 /* api logout */
 authenRoute.post('/accounts/logout', authenticateToken, async (req, res) => {
-    const { token } = req.body;
+    const { accessToken } = req.body;
 
     try {
-        await AccountSchema.updateOne({ _id: req.currentUser.id });
+        await AccountSchema.updateOne({ _id: req.currentUser.id }, { accessToken: '' });
         return res.status(200).json({ code: "20", message: "OK" });
     } catch (err) {
-        return res.status(500).json({ code: "50", message: "error database" });
+        return res.status(200).json({ code: "50", message: "error database" });
     }
 });
 

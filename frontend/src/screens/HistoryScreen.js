@@ -41,8 +41,8 @@ const HistoryScreen = ({navigation}) => {
     const [datetime, setDatetime] = useState(null);
     const [selectDatetime, setSelectDatetime] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [inforMessage, setInforMessage] = useState(null);
     const [historyNode, setHistoryNode] = useState(null);
+    const [historyMark, setHistoryMark] = useState(null);
 
     useEffect(() => {
         //const dateNow = new Date();
@@ -52,7 +52,8 @@ const HistoryScreen = ({navigation}) => {
 
     useEffect(() => {
         const dateNow = new Date();
-        setDatetime(dateNow.getDate() + '/' + dateNow.getMonth() + '/' + dateNow.getFullYear());
+        setDatetime(dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear());
+        //setDatetime(dateNow.getDate() + '/' + dateNow.getMonth() + '/' + dateNow.getFullYear());
         getListHistory();
     }, []);
 
@@ -84,22 +85,21 @@ const HistoryScreen = ({navigation}) => {
         await axios.post(`http://192.168.0.111:5000/qrs/list_qrs_place`, requestData)
         .then(res => {
             if (res.data.code === '40a') {
-                setInforMessage(res.data.message);
                 setHistoryNode([]);
+                setHistoryMark([]);
                 //console.log(res.data.message);
             }
             else if (res.data.code === '20') {
                 let historyRes = [];
+                let historyPoint = [];
                 res.data.data.forEach((ele) => {
                     let count = 0;
-                    let qr;
-                    let placeName = '';
-                    qr = ele.QR.split(" ");
-                    for (let i=1; i<qr.length-1; i++) placeName = placeName + qr[i] + ' ';
-                    historyRes.push(<HistoryNode key={count++} placeName={placeName} dateScan={ele.dateScan} timeScan={ele.timeScan} placeId={ele._idReference} />);
+                    historyRes.push(<HistoryNode key={count++} placeName={ele.name} dateScan={ele.dateScan} timeScan={ele.timeScan} QR={ele.QR} location={ele.location} address={ele.address} />);
+                    //console.log(ele.location.latitude);
+                    historyPoint.push(<Marker key={count} coordinate={{latitude: parseFloat(ele.location.latitude), longitude: parseFloat(ele.location.longitude)}} draggable={true}/>)
                 }); 
                 setHistoryNode(historyRes);
-                //console.log(historyNode.length);
+                setHistoryMark(historyPoint);
             } else {
                 Alert.alert(res.data.message);
             }
@@ -125,6 +125,7 @@ const HistoryScreen = ({navigation}) => {
                             longitudeDelta: 0.0121,
                         }}
                     >
+                        {historyMark}
                     </MapView>
                 </View>
                 <View style={styles.info}>
