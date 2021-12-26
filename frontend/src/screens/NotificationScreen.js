@@ -56,7 +56,10 @@ const NotificationScreen = () => {
             <View style={styles.body}>
                 <View style={styles.body_title}>
                     <FontAwesome5 name="bell" size={20} />
-                    <Text style={{marginLeft: 30, fontWeight: 'bold', fontSize: 20}}>You have some notification</Text>
+                    {notification ? 
+                    <Text style={{marginLeft: 30, fontWeight: 'bold', fontSize: 20}}>You have some notifications</Text> :
+                    <Text style={{marginLeft: 30, fontWeight: 'bold', fontSize: 20}}>Not notification yet</Text>
+                    }
                 </View>
                 <ScrollView style={styles.list_notifies}>
                     {listNotifies}
