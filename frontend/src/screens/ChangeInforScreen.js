@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
     View,
     Text,
@@ -24,13 +24,17 @@ const ChangeInforScreen = ({navigation}) => {
 
     const [isShowSituation, setShowSituation] = useState(false);
     const [isShowPassword, setShowPassword] = useState(false);
-    const [value, setValue] = useState(null);
+    const [state, setState] = useState(3);
+    const [newUsername, setNewUsername] = useState(null);
+    const [newPassword, setNewPassword] = useState(null);
+
     var radio_props = [
         {label: 'F0', value: 0 },
         {label: 'F1', value: 1 },
         {label: 'F2', value: 2 },
         {label: 'Normal', value: 3}
-      ];
+    ];
+    
 
     const showSituation = () => {
         setShowSituation(!isShowSituation);
@@ -38,6 +42,34 @@ const ChangeInforScreen = ({navigation}) => {
 
     const showPassword = () => {
         setShowPassword(!isShowPassword);
+    };
+
+    const updateInfo = async () => {
+        let router = `http://192.168.0.111:5000/states/update_situation_only`;
+        const requestData = {
+            id: global.currentUser.id,
+            accessToken: global.currentUser.accessToken,
+            state: state,
+        };
+
+        if (newUsername !== null) {
+            requestData.newUsername = newUsername;
+            router = `http://192.168.0.111:5000/states/update_info`;
+        };
+
+        if (newPassword !== null) {
+            requestData.newPassword = newPassword;
+            router = `http://192.168.0.111:5000/states/update_info`;
+        }
+
+        await axios.post(router, requestData)
+        .then(res => {
+            if (res.data.code === '20') Alert.alert("Successfully update");
+            else Alert.alert(res.data.message);
+        })
+        .catch(err => {
+            console.log(err);
+        });
     };
 
     return (
@@ -59,7 +91,7 @@ const ChangeInforScreen = ({navigation}) => {
                         <RadioForm
                             radio_props={radio_props}
                             initial={3}
-                            onPress={(value) => {setValue({value})}}
+                            onPress={value => setState(value)}
                             buttonColor={style_default.THEME_COLOR}
                             selectedButtonColor={'#0bd66d'}
                         />
@@ -85,7 +117,7 @@ const ChangeInforScreen = ({navigation}) => {
                     </View>
                     <View style={styles.info_detail}>
                         <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />
-                        <Text style={styles.text_detail}>Email: </Text>
+                        <Text style={styles.text_detail}>Password: </Text>
                         <ChangeInfo info={global.currentUser.userName} enableEdit={false} />
                     </View>
                     <View>
@@ -101,21 +133,26 @@ const ChangeInforScreen = ({navigation}) => {
                             <View style={styles.info_detail}>
                                 <Octicons name="unverified" color={style_default.AUTHEN_COLOR} size={20} />
                                 <Text style={styles.text_detail}>Current password: </Text>
-                                <ChangeInfo info="halau" enableEdit={true} />
+                                <ChangeInfo info="" enableEdit={true} />
                             </View>
                             <View style={styles.info_detail}>
                                 <FontAwesome5 name="user-edit" color={style_default.AUTHEN_COLOR} size={20} />
-                                <Text style={styles.text_detail}>Current password: </Text>
-                                <ChangeInfo info="halau" enableEdit={true} />
+                                <Text style={styles.text_detail}>New password: </Text>
+                                <ChangeInfo info="" enableEdit={true} />
                             </View>
                             <View style={styles.info_detail}>
                                 <FontAwesome name="check-square" color={style_default.AUTHEN_COLOR} size={20} />
-                                <Text style={styles.text_detail}>Current password: </Text>
-                                <ChangeInfo info="halau" enableEdit={true} />
+                                <Text style={styles.text_detail}>Confirm password: </Text>
+                                <ChangeInfo info="" enableEdit={true} />
                             </View>
                         </View> : <View></View>     
                         }
                     </View>
+                </View>
+                <View style={styles.button}>
+                    <TouchableOpacity style={styles.update_button} onPress={updateInfo}>
+                        <Text style={[styles.text_title, {color: style_default.WHITE_COLOR, textAlign: 'center'}]}>Update</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
@@ -140,7 +177,7 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         paddingHorizontal: 20,
-        paddingVertical: 20
+        paddingTop: 20,
     },
     body_situation: {
         flexDirection: 'row',
@@ -175,5 +212,16 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         marginLeft: 10
+    },
+    button: {
+        backgroundColor: style_default.THEME_COLOR,
+        height: 50,
+        width: 100,
+        borderRadius: 10,
+        justifyContent: 'center',
+        marginTop: 20,
+        marginLeft: 250
+    },
+    update_button: {
     }
 });

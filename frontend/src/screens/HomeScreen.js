@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  Text
+  Text,
+  Alert
 } from 'react-native';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import axios from 'axios';
 import FunctionHome from "../components/FunctionHome";
 
 import style_default from '../shared/const';
@@ -14,6 +15,10 @@ import style_default from '../shared/const';
 const HomeScreen = ({navigation}) => {
 
   const [hasWarning, setWarning] = useState(true);
+
+  useEffect(() => {
+    checkWarning();
+  }, [])
 
   const toYourQR = () => {
     navigation.navigate('YourQRScreen');
@@ -25,6 +30,27 @@ const HomeScreen = ({navigation}) => {
 
   const toHistory = () => {
     navigation.navigate('HistoryScreen');
+  }
+
+  const checkWarning = async () => {
+    const requestData = {
+      id: global.currentUser.id,
+      accessToken: global.currentUser.accessToken,
+    };
+
+    await axios.post(`http://192.168.0.111:5000/nortifies/check_have_nortifies`, requestData)
+    .then(res => {
+      if (res.data.code === '20') {
+        setWarning(true);
+      }
+      else if (res.data.code === '40a') {
+        setWarning(false);
+      }
+      else Alert.alert(res.data.message);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   return (

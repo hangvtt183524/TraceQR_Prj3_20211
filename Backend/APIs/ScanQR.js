@@ -24,8 +24,8 @@ qrcodeRoute.post('/qrs/save_qr', authenticateToken, async (req, res) => {
     if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
     else {
         const datetime = new Date();
-        const dateScan = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear();
-        const timeScan = datetime.getHours() + '/' + datetime.getMinutes() + '/' + datetime.getSeconds();
+        const dateScan = datetime.getFullYear() + '-' + (datetime.getMonth() + 1) + '-' + datetime.getDate() ;
+        const timeScan = datetime.getHours() + '-' + datetime.getMinutes() + '-' + datetime.getSeconds();
 
         const ref = await ScanQRSchema.findOne({ QR: qr });
         //console.log('ref: ', ref);

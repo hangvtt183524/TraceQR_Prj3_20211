@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const testRoute = require('./APIs/Test');
 const authenRoute = require('./APIs/Authen');
 const qrcodeRoute = require('./APIs/ScanQR');
+const updateRoute = require('./APIs/AccessCoordinates');
+const nortifyRoute = require('./APIs/Notification');
 
 app.use(express.json());
 
@@ -35,6 +37,8 @@ mongoose.connect('mongodb+srv://mgdb1:036300003200@cluster0.mwrff.mongodb.net/my
 app.use(testRoute);
 app.use(authenRoute);
 app.use(qrcodeRoute);
+app.use(updateRoute);
+app.use(nortifyRoute);
 
 app.listen(PORT, () => {
     console.log("Server is running...");

@@ -38,7 +38,7 @@ const ChangeInfo = (props) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        width: '60%',
+        width: '50%',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 0,

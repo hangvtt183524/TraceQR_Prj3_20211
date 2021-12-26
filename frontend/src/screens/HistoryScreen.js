@@ -52,7 +52,7 @@ const HistoryScreen = ({navigation}) => {
 
     useEffect(() => {
         const dateNow = new Date();
-        setDatetime(dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear());
+        setDatetime(dateNow.getFullYear() + '-' + (dateNow.getMonth() + 1) + '-' + (dateNow.getDate()));
         //setDatetime(dateNow.getDate() + '/' + dateNow.getMonth() + '/' + dateNow.getFullYear());
         getListHistory();
     }, []);
@@ -71,7 +71,7 @@ const HistoryScreen = ({navigation}) => {
 
     const selectDate = async () => {
         const selectDate = selectDatetime.toString().split(" ");
-        setDatetime(selectDate[2] + "/" + months[selectDate[1]] + "/" + selectDate[3]);
+        setDatetime(selectDate[3] + "-" + months[selectDate[1]] + '-' + selectDate[2]);
         setShowModal(false);
     };
 

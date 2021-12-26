@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 
 const WarningSchema = mongoose.Schema(
     {
-        _idReference: mongoose.ObjectID,
-        locationWarn: String,
-        QRWarn: String,
+        _idReference: String,
+        _idPlace: String,
         message: String,
-        createdTime: Date,
+        createdDate: String,
         seen: Boolean
     }
 );
