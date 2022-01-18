@@ -59,7 +59,7 @@ const LoginScreen = ({navigation}) => {
                 type: type
             };
 
-            await axios.post(`http://192.168.0.111:5000/accounts/login`, account)
+            await axios.post(`http://192.168.0.102:5000/accounts/login`, account)
             .then(res => {
                 if (res.data.code === '40a') Alert.alert(res.data.message);
                 else if (res.data.code === '40') Alert.alert("Wrong password!");
@@ -100,7 +100,7 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.container}>
             {/* <StatusBar backgroundColor='#009387' barStyle='light-content'></StatusBar> */}
             <View style={styles.header}>
-                <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
+                <FontAwesome5 name="viruses" color={style_default.WHITE_COLOR} size={60} />
                 <Text style={styles.text_header}>Login</Text>
             </View>
             <Animatable.View 

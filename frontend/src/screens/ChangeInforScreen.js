@@ -45,7 +45,7 @@ const ChangeInforScreen = ({navigation}) => {
     };
 
     const updateInfo = async () => {
-        let router = `http://192.168.0.111:5000/states/update_situation_only`;
+        let router = `http://192.168.0.102:5000/states/update_situation_only`;
         const requestData = {
             id: global.currentUser.id,
             accessToken: global.currentUser.accessToken,
@@ -54,12 +54,12 @@ const ChangeInforScreen = ({navigation}) => {
 
         if (newUsername !== null) {
             requestData.newUsername = newUsername;
-            router = `http://192.168.0.111:5000/states/update_info`;
+            router = `http://192.168.0.102:5000/states/update_info`;
         };
 
         if (newPassword !== null) {
             requestData.newPassword = newPassword;
-            router = `http://192.168.0.111:5000/states/update_info`;
+            router = `http://192.168.0.102:5000/states/update_info`;
         }
 
         await axios.post(router, requestData)
@@ -71,6 +71,10 @@ const ChangeInforScreen = ({navigation}) => {
             console.log(err);
         });
     };
+
+    const cancelUpdate = () => {
+
+    }
 
     return (
         <View style={styles.container}>
@@ -108,17 +112,17 @@ const ChangeInforScreen = ({navigation}) => {
                     <View style={styles.info_detail}>
                         <FontAwesome name="phone" color={style_default.AUTHEN_COLOR} size={20} />
                         <Text style={styles.text_detail}>PhoneNumber: </Text>
-                        <ChangeInfo info={global.currentUser.userName} enableEdit={false} />
+                        <ChangeInfo info="014*****69" enableEdit={false} />
                     </View>
                     <View style={styles.info_detail}>
                         <Fontisto name="email" color={style_default.AUTHEN_COLOR} size={20} />
                         <Text style={styles.text_detail}>Email: </Text>
-                        <ChangeInfo info={global.currentUser.userName} enableEdit={false} />
+                        <ChangeInfo info="pai**********com" enableEdit={false} />
                     </View>
                     <View style={styles.info_detail}>
                         <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />
                         <Text style={styles.text_detail}>Password: </Text>
-                        <ChangeInfo info={global.currentUser.userName} enableEdit={false} />
+                        <ChangeInfo info="******" enableEdit={false} />
                     </View>
                     <View>
                         <TouchableOpacity onPress={showPassword} style={styles.body_situation}>
@@ -149,10 +153,17 @@ const ChangeInforScreen = ({navigation}) => {
                         }
                     </View>
                 </View>
-                <View style={styles.button}>
-                    <TouchableOpacity style={styles.update_button} onPress={updateInfo}>
-                        <Text style={[styles.text_title, {color: style_default.WHITE_COLOR, textAlign: 'center'}]}>Update</Text>
-                    </TouchableOpacity>
+                <View style={styles.action}>
+                    <View>
+                        <TouchableOpacity style={styles.update_button} onPress={updateInfo}>
+                            <Text style={[styles.text_title, {color: style_default.WHITE_COLOR, textAlign: 'center'}]}>Update</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <TouchableOpacity style={styles.cancel_button} onPress={cancelUpdate}>
+                            <Text style={[styles.text_title, {color: style_default.WHITE_COLOR, textAlign: 'center'}]}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -213,15 +224,26 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginLeft: 10
     },
-    button: {
+    update_button: {
         backgroundColor: style_default.THEME_COLOR,
         height: 50,
         width: 100,
         borderRadius: 10,
         justifyContent: 'center',
-        marginTop: 20,
-        marginLeft: 250
     },
-    update_button: {
+    cancel_button: {
+        backgroundColor: '#9f9aa6',
+        height: 50,
+        width: 100,
+        borderRadius: 10,
+        justifyContent: 'center',
+    },
+    action: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '60%',
+        marginLeft: 140,
+        marginTop: 10
     }
 });

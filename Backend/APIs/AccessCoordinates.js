@@ -26,12 +26,14 @@ updateRoute.post('/states/update_situation_only', authenticateToken, async (req,
 
             const listPlace = await ScanQRSchema.find({ _idScanner: id, dateScan: { $gte: dateBefore, $lte: dateNow }});
             if (listPlace !== null && listPlace.length > 0) {
+                console.log(listPlace.length);
                 for (let i=0; i<listPlace.length; i++) {
                     const listScannerEachPlace = await ScanQRSchema.find({ _idReference: listPlace[i]._idReference, dateScan: { $gte: dateBefore, $lte: dateNow }});
                     if (listScannerEachPlace !== null && listScannerEachPlace.length > 0) {
                         const warningSaves = [];
                         let aWarning;
                         for (let j=0; j<listScannerEachPlace.length; j++) {
+                            console.log(listScannerEachPlace[j]);
                             aWarning = { 
                                 _idReference: listScannerEachPlace[j]._idScanner,
                                 _idPlace: listScannerEachPlace[j]._idReference,

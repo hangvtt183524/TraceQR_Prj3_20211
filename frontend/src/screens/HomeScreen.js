@@ -38,7 +38,7 @@ const HomeScreen = ({navigation}) => {
       accessToken: global.currentUser.accessToken,
     };
 
-    await axios.post(`http://192.168.0.111:5000/nortifies/check_have_nortifies`, requestData)
+    await axios.post(`http://192.168.0.102:5000/nortifies/check_have_nortifies`, requestData)
     .then(res => {
       if (res.data.code === '20') {
         setWarning(true);
@@ -60,7 +60,7 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.header_text}>{global.currentUser.userName}</Text>
         </View>
         <View style={styles.header_icon}>
-          <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={60} />
+          <FontAwesome5 name="viruses" color={style_default.WHITE_COLOR} size={60} />
         </View>
       </View>
       <View style={styles.body}>

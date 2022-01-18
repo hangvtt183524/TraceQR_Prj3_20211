@@ -27,14 +27,14 @@ nortifyRoute.post('/nortifies/get_list_nortifies', authenticateToken, async (req
     if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
     else {
         const notSeenNoftify = await WarningSchema.find({ _idReference: id, seen: false });
-        //console.log(notSeenNoftify);
+        console.log(notSeenNoftify);
         if (notSeenNoftify !== null && notSeenNoftify.length > 0) {
             let listPlaces = [];
-            let placeEle = {};
-            let placeInfo;
             for (let i=0; i<notSeenNoftify.length; i++) {
+                let placeEle = {};
+                let placeInfo;
                 placeInfo = await PlaceSchema.findById(notSeenNoftify[i]._idPlace);
-                //console.log('placeInfo: ', placeInfo);
+                console.log('placeInfo: ', placeInfo);
                 if (placeInfo !== null) {
                     placeEle.name = placeInfo.name;
                     placeEle.address = placeInfo.address;

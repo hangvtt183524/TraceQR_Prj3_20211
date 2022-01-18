@@ -27,11 +27,12 @@ const NotificationScreen = () => {
             accessToken: global.currentUser.accessToken,
         };
 
-        await axios.post(`http://192.168.0.111:5000/nortifies/get_list_nortifies`, requestData)
+        await axios.post(`http://192.168.0.102:5000/nortifies/get_list_nortifies`, requestData)
         .then(res => {
             if (res.data.code === '20') {
                 let returnListPlace = [];
                 const returnData = res.data.data;
+                console.log('return data: ', returnData);
                 for (let i=0; i<returnData.length; i++) {
                     returnListPlace.push(<NotifyNode key={i} name={returnData[i].name} address={returnData[i].address} message={returnData[i].message} _idNotify={returnData[i]._idNotify} />);
                 }

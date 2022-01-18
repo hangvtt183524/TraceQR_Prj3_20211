@@ -82,7 +82,7 @@ const HistoryScreen = ({navigation}) => {
             datetime: datetime
         }
         //console.log(datetime);
-        await axios.post(`http://192.168.0.111:5000/qrs/list_qrs_place`, requestData)
+        await axios.post(`http://192.168.0.102:5000/qrs/list_qrs_place`, requestData)
         .then(res => {
             if (res.data.code === '40a') {
                 setHistoryNode([]);
@@ -92,11 +92,12 @@ const HistoryScreen = ({navigation}) => {
             else if (res.data.code === '20') {
                 let historyRes = [];
                 let historyPoint = [];
+                let count = 0;
                 res.data.data.forEach((ele) => {
-                    let count = 0;
-                    historyRes.push(<HistoryNode key={count++} placeName={ele.name} dateScan={ele.dateScan} timeScan={ele.timeScan} QR={ele.QR} location={ele.location} address={ele.address} />);
-                    //console.log(ele.location.latitude);
-                    historyPoint.push(<Marker key={count} coordinate={{latitude: parseFloat(ele.location.latitude), longitude: parseFloat(ele.location.longitude)}} draggable={true}/>)
+                    historyRes.push(<HistoryNode key={count} placeName={ele.name} dateScan={ele.dateScan} timeScan={ele.timeScan} QR={ele.QR} location={ele.location} address={ele.address} />);
+                    //console.log('length: ', historyRes.length);
+                    historyPoint.push(<Marker key={count} coordinate={{latitude: parseFloat(ele.location.latitude), longitude: parseFloat(ele.location.longitude)}} draggable={true}/>);
+                    count = count + 1;
                 }); 
                 setHistoryNode(historyRes);
                 setHistoryMark(historyPoint);
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     modal_calender_container: {
         backgroundColor: style_default.WHITE_COLOR,
         width: '95%',
-        height: '50%',
+        height: '55%',
         borderRadius: 15,
     },
     modal_calender: {
@@ -260,7 +261,9 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         opacity: 1,
-        borderRadius: 15
+        borderRadius: 15,
+        display: 'flex',
+        justifyContent: 'space-around'
     },
     calender_picker: {
         color: style_default.PRIMARY_COLOR,
@@ -274,7 +277,6 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 10,
         marginLeft: 240,
-        marginTop: 10
     },
     selectText: {
         textAlign: 'center',

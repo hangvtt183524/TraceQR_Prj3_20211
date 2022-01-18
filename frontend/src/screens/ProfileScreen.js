@@ -10,7 +10,7 @@ import axios from "axios";
 const ProfileScreen = ({navigation}) => {
 
     const logout = async () => {
-        await axios.post(`http://192.168.0.111:5000/accounts/logout`, { accessToken: global.currentUser.accessToken })
+        await axios.post(`http://192.168.0.102:5000/accounts/logout`, { accessToken: global.currentUser.accessToken })
         .then(res => {
             if (res.data.code === '20') navigation.navigate("LoginScreen");
             else Alert.alert(res.data.message);
@@ -39,7 +39,7 @@ const ProfileScreen = ({navigation}) => {
                         </View>
                     </View>
                     <View>
-                        <FontAwesome5 name="cat" color={style_default.WHITE_COLOR} size={120} />
+                        <FontAwesome5 name="viruses" color={style_default.WHITE_COLOR} size={120} />
                     </View>
                 </View>
             </View>

@@ -44,7 +44,7 @@ const ScanQRScreen = () => {
         }
 
         console.log(requestData);
-        await axios.post(`http://192.168.0.111:5000/qrs/save_qr`, requestData)
+        await axios.post(`http://192.168.0.102:5000/qrs/save_qr`, requestData)
         .then(res => {
             if (res.data.code !== '20') {
                 Alert.alert(res.data.message);
