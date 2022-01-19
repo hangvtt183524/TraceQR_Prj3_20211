@@ -13,6 +13,7 @@ const NotifyNode = (props) => {
 
     const seen = () => {
         setVisible(false);
+        global.countWarning = global.countWarning - 1;
     };
 
     if (isVisible)

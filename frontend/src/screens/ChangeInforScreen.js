@@ -28,6 +28,11 @@ const ChangeInforScreen = ({navigation}) => {
     const [newUsername, setNewUsername] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
 
+    const [userName, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [mail, setMail] = useState(null);
+    const [phone, setPhone] = useState(null);
+
     var radio_props = [
         {label: 'F0', value: 0 },
         {label: 'F1', value: 1 },
@@ -76,6 +81,42 @@ const ChangeInforScreen = ({navigation}) => {
 
     }
 
+    useEffect(() => {
+        loadInfo();
+    }, []);
+
+    const loadInfo = async () => {
+        const requestData = {
+            id: global.currentUser.id,
+            accessToken: global.currentUser.accessToken,
+            type: global.currentType
+        };
+ 
+        await axios.post(`http://192.168.0.102:5000/infos/get_infos`, requestData)
+        .then(res => {
+            if (res.data.code === '20') {
+                const respondData = res.data.data;
+                if (requestData.type === 'private_user') {
+                    setUsername(respondData.userName);
+                    setPhone(respondData.phoneNumber.slice(0, 3) + '********' + respondData.phoneNumber.slice(-2));
+                    setMail(respondData.email.slice(0, 3) + '*********' + respondData.email.slice(-3));
+                } else if (requestData.type === 'public_place') {
+                    setUsername(respondData.name);
+                    setPhone(respondData.phoneNumber.slice(0, 3) + '********' + respondData.phoneNumber.slice(-2));
+                    setMail(respondData.email.slice(0, 3) + '*********' + respondData.email.slice(-3));
+                }
+            } 
+            else if (res.data.code === '40a') {
+            }
+            else {
+                Alert.alert(res.data.message);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -112,12 +153,12 @@ const ChangeInforScreen = ({navigation}) => {
                     <View style={styles.info_detail}>
                         <FontAwesome name="phone" color={style_default.AUTHEN_COLOR} size={20} />
                         <Text style={styles.text_detail}>PhoneNumber: </Text>
-                        <ChangeInfo info="014*****69" enableEdit={false} />
+                        <ChangeInfo info={phone} enableEdit={false} />
                     </View>
                     <View style={styles.info_detail}>
                         <Fontisto name="email" color={style_default.AUTHEN_COLOR} size={20} />
                         <Text style={styles.text_detail}>Email: </Text>
-                        <ChangeInfo info="pai**********com" enableEdit={false} />
+                        <ChangeInfo info={mail} enableEdit={false} />
                     </View>
                     <View style={styles.info_detail}>
                         <Feather name="lock" color={style_default.AUTHEN_COLOR} size={20} />

@@ -5,6 +5,8 @@ const updateRoute = express.Router();
 const StateSchema = require('../Models/StateSchema');
 const WarningSchema = require('../Models/WaringSchema');
 const ScanQRSchema = require('../Models/ScanQRSchema');
+const AccountSchema = require('../Models/AccountSchema');
+const PlaceSchema = require('../Models/PlaceSchema');
 const mongoose = require('mongoose');
 const { authenticateToken } = require('../Middleware/token');
 
@@ -53,6 +55,30 @@ updateRoute.post('/states/update_situation_only', authenticateToken, async (req,
             //console.log(listPlace);
         }
         return res.status(200).json({ code: "20", message: "OK" });
+    }
+});
+
+updateRoute.post('/infos/get_infos', authenticateToken, async (req, res) => {
+    const { id, accessToken, type } = req.body;
+    if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
+    else {
+        if (type === 'private_user') {
+            const currentInfo = await AccountSchema.findOne({ _id: id, accessToken: accessToken });
+            if (currentInfo !== null) {
+                res.status(200).json({ code: '20', message: 'OK', data: currentInfo });
+            } else {
+                return res.status(200).json({ code: "40a", message: "No data" });
+            }
+        } else if (type === 'public_place') {
+            const currentInfo = await PlaceSchema.findOne({ _id: id });
+            if (currentInfo !== null) {
+                res.status(200).json({ code: '20', message: 'OK', data: currentInfo });
+            } else {
+                return res.status(200).json({ code: '40a', message: 'No data' });
+            }
+        } else {
+            return res.status(200).json({ code: "50", message: "Something wrong! Please try again!"});
+        }
     }
 });
 

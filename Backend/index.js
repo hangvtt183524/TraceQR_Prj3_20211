@@ -4,7 +4,6 @@ const app = express();
 const PORT = 5000;
 const mongoose = require('mongoose');
 //const testSchema = require('./Models/testSchema');
-const testRoute = require('./APIs/Test');
 const authenRoute = require('./APIs/Authen');
 const qrcodeRoute = require('./APIs/ScanQR');
 const updateRoute = require('./APIs/AccessCoordinates');
@@ -34,7 +33,6 @@ mongoose.connect('mongodb+srv://mgdb1:036300003200@cluster0.mwrff.mongodb.net/my
     console.log("Connection Error");
 });
 
-app.use(testRoute);
 app.use(authenRoute);
 app.use(qrcodeRoute);
 app.use(updateRoute);

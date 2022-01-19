@@ -18,7 +18,8 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     checkWarning();
-  }, [])
+  }, []);
+
 
   const toYourQR = () => {
     navigation.navigate('YourQRScreen');
@@ -42,6 +43,9 @@ const HomeScreen = ({navigation}) => {
     .then(res => {
       if (res.data.code === '20') {
         setWarning(true);
+        if (res.data.count > 0) {
+          global.countWarning = res.data.count;
+        }
       }
       else if (res.data.code === '40a') {
         setWarning(false);

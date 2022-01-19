@@ -33,10 +33,11 @@ const NotificationScreen = () => {
             if (res.data.code === '20') {
                 let returnListPlace = [];
                 const returnData = res.data.data;
-                console.log('return data: ', returnData);
+                //console.log('return data: ', returnData);
                 for (let i=0; i<returnData.length; i++) {
                     returnListPlace.push(<NotifyNode key={i} name={returnData[i].name} address={returnData[i].address} message={returnData[i].message} _idNotify={returnData[i]._idNotify} />);
                 }
+                global.countWarning = returnData.length;
                 setLoading(false);
                 setListNotifies(returnListPlace);
                 setNotification(true);

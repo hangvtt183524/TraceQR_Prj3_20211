@@ -29,6 +29,10 @@ const ProfileScreen = ({navigation}) => {
         navigation.navigate("ChangeInforScreen");
     };
 
+    const aboutApp = () => {
+        navigation.navigate("AboutScreen");
+    };
+
     return (
         <ScrollView>
             <View>
@@ -50,7 +54,7 @@ const ProfileScreen = ({navigation}) => {
                     <MaterialIcons name='arrow-forward-ios' size={20} style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={{borderColor: 'grey', borderWidth: 0.5}}></View>
-                <TouchableOpacity style={styles.option}>
+                <TouchableOpacity style={styles.option} onPress={aboutApp}>
                     <MaterialIcons name='info' size={40} style={styles.iconOption} />
                     <Text style={styles.textOption}>About app</Text>
                     <MaterialIcons name='arrow-forward-ios' size={20} style={styles.arrow} />
