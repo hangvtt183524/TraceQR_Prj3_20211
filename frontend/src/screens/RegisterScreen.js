@@ -19,6 +19,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import axios from 'axios';
 import style_default from '../shared/const';
 import isAllDigits from '../Services/checkDigits';
+import ModalLoading from '../components/ModalLoading';
 
 const RegisterScreen = ({navigation}) => {
 
@@ -31,6 +32,7 @@ const RegisterScreen = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [type, setType] = useState(global.userTypeLabel);
   const [address, setAddress] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const register = async function(event) {
     event.preventDefault();
@@ -53,12 +55,13 @@ const RegisterScreen = ({navigation}) => {
         type: type,
         location: global.location
       };
-
+      setLoading(true);
       await axios.post(`http://192.168.0.102:5000/accounts/register`, newAccount)
       .then(res => {
         if (res.data.code === '43') Alert.alert("This information has been used for another account!");
         else if (res.data.code === '50') Alert.alert("Error! Please try again after a few minutes...");
         else if (res.data.code === '20') {
+          setLoading(false);
           navigation.navigate('LoginScreen');
         } 
         else Alert.alert(res.data.message);
@@ -66,6 +69,7 @@ const RegisterScreen = ({navigation}) => {
       .catch(err => {
         console.log(err);
       });
+      setLoading(false);
     }
 
   };
@@ -73,6 +77,10 @@ const RegisterScreen = ({navigation}) => {
   const goToMap = () => {
     navigation.navigate("MapScreen");
   };
+
+  if (loading) {
+    return (<ModalLoading />)
+  }
 
   return (
     <View style={styles.container}>

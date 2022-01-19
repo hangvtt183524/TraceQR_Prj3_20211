@@ -19,6 +19,7 @@ import { FontAwesome, FontAwesome5, Fontisto } from "@expo/vector-icons";
 import axios from 'axios';
 import isAllDigits from '../Services/checkDigits';
 import RadioGroup from 'react-native-custom-radio-group';
+import ModalLoading from "../components/ModalLoading";
 
 const radioGroupList = [
     {
@@ -38,6 +39,7 @@ const LoginScreen = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [valid, setValid] = useState('');
     const [type, setType] = useState('');
+    const [loading, setLoading] = useState(false);
 
 
     const login =  async function (event) {
@@ -58,7 +60,7 @@ const LoginScreen = ({navigation}) => {
                 password: password,
                 type: type
             };
-
+            setLoading(true);
             await axios.post(`http://192.168.0.102:5000/accounts/login`, account)
             .then(res => {
                 if (res.data.code === '40a') Alert.alert(res.data.message);
@@ -67,6 +69,7 @@ const LoginScreen = ({navigation}) => {
                 else if (res.data.code === '20') {
                     global.currentUser = res.data.data;
                     //console.log(global.currentUser);
+                    setLoading(false);
                     navigation.navigate('Home');
                 } 
                 else Alert.alert(res.data.message);
@@ -74,7 +77,7 @@ const LoginScreen = ({navigation}) => {
             .catch(err => {
                 console.log(err);           
             });
-
+            setLoading(false);
         }
     };
 
@@ -94,6 +97,10 @@ const LoginScreen = ({navigation}) => {
     const changeUserType = (value) => {
         if (value === 'private_user') setType('private_user');
         else setType('public_place');
+    }
+
+    if (loading) {
+        return (<ModalLoading />)
     }
 
     return (

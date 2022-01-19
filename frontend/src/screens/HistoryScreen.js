@@ -21,6 +21,7 @@ import style_default from '../shared/const';
 import Header from "../components/Header";
 
 import axios from 'axios';
+import ModalLoading from "../components/ModalLoading";
 
 const months = {
     "Jan": '01',
@@ -43,6 +44,7 @@ const HistoryScreen = ({navigation}) => {
     const [showModal, setShowModal] = useState(false);
     const [historyNode, setHistoryNode] = useState(null);
     const [historyMark, setHistoryMark] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         //const dateNow = new Date();
@@ -81,7 +83,7 @@ const HistoryScreen = ({navigation}) => {
             accessToken: global.currentUser.accessToken,
             datetime: datetime
         }
-        //console.log(datetime);
+        setLoading(true);
         await axios.post(`http://192.168.0.102:5000/qrs/list_qrs_place`, requestData)
         .then(res => {
             if (res.data.code === '40a') {
@@ -99,15 +101,18 @@ const HistoryScreen = ({navigation}) => {
                     historyPoint.push(<Marker key={count} coordinate={{latitude: parseFloat(ele.location.latitude), longitude: parseFloat(ele.location.longitude)}} draggable={true}/>);
                     count = count + 1;
                 }); 
+                setLoading(false);
                 setHistoryNode(historyRes);
                 setHistoryMark(historyPoint);
             } else {
+                setLoading(false);
                 Alert.alert(res.data.message);
             }
         })
         .catch(err => {
             console.log(err);
         });
+        setLoading(false);
     };
 
     return (
@@ -150,9 +155,11 @@ const HistoryScreen = ({navigation}) => {
                             </View>
                         </View>
                     </View>
+                    { loading ? <ModalLoading /> : 
                     <ScrollView style={styles.info_body}>
                         {historyNode}
                     </ScrollView>
+                    }
                 </View>
             </View>
             <Modal visible={showModal} transparent>

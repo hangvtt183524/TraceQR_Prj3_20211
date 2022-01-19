@@ -9,13 +9,14 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from "../components/Header";
 import style_default from '../shared/const';
 import NotifyNode from "../components/Notify";
-
+import ModalLoading from "../components/ModalLoading";
 import axios from "axios";
 
 const NotificationScreen = () => {
 
     const [notification, setNotification] = useState(false);
     const [listNotifies, setListNotifies] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         loadwarning();
@@ -26,7 +27,7 @@ const NotificationScreen = () => {
             id: global.currentUser.id,
             accessToken: global.currentUser.accessToken,
         };
-
+        setLoading(true);
         await axios.post(`http://192.168.0.102:5000/nortifies/get_list_nortifies`, requestData)
         .then(res => {
             if (res.data.code === '20') {
@@ -36,17 +37,23 @@ const NotificationScreen = () => {
                 for (let i=0; i<returnData.length; i++) {
                     returnListPlace.push(<NotifyNode key={i} name={returnData[i].name} address={returnData[i].address} message={returnData[i].message} _idNotify={returnData[i]._idNotify} />);
                 }
+                setLoading(false);
                 setListNotifies(returnListPlace);
                 setNotification(true);
             } 
             else if (res.data.code === '40a') {
+                setLoading(false);
                 setNotification(false);
             }
-            else Alert.alert(res.data.message);
+            else {
+                setLoading(false);
+                Alert.alert(res.data.message);
+            }
         })
         .catch(err => {
             console.log(err);
         });
+        setLoading(false);
     }
 
     return (
@@ -62,9 +69,11 @@ const NotificationScreen = () => {
                     <Text style={{marginLeft: 30, fontWeight: 'bold', fontSize: 20}}>Not notification yet</Text>
                     }
                 </View>
+                { loading ? <ModalLoading /> :
                 <ScrollView style={styles.list_notifies}>
                     {listNotifies}
                 </ScrollView>
+                }
             </View>
         </View>
     )
