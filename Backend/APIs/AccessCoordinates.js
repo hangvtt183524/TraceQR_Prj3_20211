@@ -12,19 +12,19 @@ const { authenticateToken } = require('../Middleware/token');
 
 updateRoute.post('/states/update_situation_only', authenticateToken, async (req, res) => {
     const { id, accessToken, state } = req.body;
-    //console.log(state);
+    // console.log('state: ',state);
     if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
     else {
         let dateNow = new Date();
         dateNow = dateNow.getFullYear() + '-' + (dateNow.getMonth() + 1) + '-' + dateNow.getDate();
-
         await StateSchema.create({ _idReference: id, typeState: state, createdDate: dateNow });
 
         if (state === 0 || state === 1) {
             const type = 'F' + state;
             let dateBefore = new Date(dateNow);
-            dateBefore.setDate(dateBefore.getDate() - 14);
+            dateBefore.setDate(dateBefore.getDate() - 7);
             dateBefore = dateBefore.getFullYear() + '-' + (dateBefore.getMonth() + 1) + '-' + dateBefore.getDate();
+            // console.log(dateBefore)
 
             const listPlace = await ScanQRSchema.find({ _idScanner: id, dateScan: { $gte: dateBefore, $lte: dateNow }});
             if (listPlace !== null && listPlace.length > 0) {
@@ -52,7 +52,7 @@ updateRoute.post('/states/update_situation_only', authenticateToken, async (req,
                     //console.log('each place: ', listScannerEachPlace);
                 }
             }
-            //console.log(listPlace);
+            // console.log(listPlace);
         }
         return res.status(200).json({ code: "20", message: "OK" });
     }

@@ -15,7 +15,10 @@ const verifyPassword = async (acc, password) => {
 
 const loginAccount = async (acc, password, res, type) => {
     if (acc === null) return res.status(200).json({ code: "40a", message: "Account hasn't registed" });
-    else if (!verifyPassword(acc, password)) return res.status(200).json({ code: "40", message: "wrong password" });
+    const checkPass = await verifyPassword(acc, password);
+    if (!checkPass) {
+        return res.status(200).json({ code: "40", message: "wrong password" });
+    }
     else {
         const user = { id: acc._id };
         const accessToken = await generateAccessToken(user);
