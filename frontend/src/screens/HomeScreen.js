@@ -39,7 +39,7 @@ const HomeScreen = ({navigation}) => {
       accessToken: global.currentUser.accessToken,
     };
 
-    await axios.post(`http://192.168.0.102:5000/nortifies/check_have_nortifies`, requestData)
+    await axios.post(`http://192.168.1.7:5000/nortifies/check_have_nortifies`, requestData)
     .then(res => {
       if (res.data.code === '20') {
         setWarning(true);

@@ -50,7 +50,7 @@ const ChangeInforScreen = ({navigation}) => {
     };
 
     const updateInfo = async () => {
-        let router = `http://192.168.0.102:5000/states/update_situation_only`;
+        let router = `http://192.168.1.7:5000/states/update_situation_only`;
         const requestData = {
             id: global.currentUser.id,
             accessToken: global.currentUser.accessToken,
@@ -59,12 +59,12 @@ const ChangeInforScreen = ({navigation}) => {
 
         if (newUsername !== null) {
             requestData.newUsername = newUsername;
-            router = `http://192.168.0.102:5000/states/update_info`;
+            router = `http://192.168.1.7:5000/states/update_info`;
         };
 
         if (newPassword !== null) {
             requestData.newPassword = newPassword;
-            router = `http://192.168.0.102:5000/states/update_info`;
+            router = `http://192.168.1.7:5000/states/update_info`;
         }
 
         await axios.post(router, requestData)
@@ -92,7 +92,7 @@ const ChangeInforScreen = ({navigation}) => {
             type: global.currentType
         };
  
-        await axios.post(`http://192.168.0.102:5000/infos/get_infos`, requestData)
+        await axios.post(`http://192.168.1.7:5000/infos/get_infos`, requestData)
         .then(res => {
             if (res.data.code === '20') {
                 const respondData = res.data.data;

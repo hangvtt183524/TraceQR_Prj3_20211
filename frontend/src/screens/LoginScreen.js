@@ -61,7 +61,7 @@ const LoginScreen = ({navigation}) => {
                 type: type
             };
             setLoading(true);
-            await axios.post(`http://192.168.0.102:5000/accounts/login`, account)
+            await axios.post(`http://192.168.1.7:5000/accounts/login`, account)
             .then(res => {
                 if (res.data.code === '40a') Alert.alert(res.data.message);
                 else if (res.data.code === '40') Alert.alert("Wrong password!");

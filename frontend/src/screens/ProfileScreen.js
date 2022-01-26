@@ -10,7 +10,7 @@ import axios from "axios";
 const ProfileScreen = ({navigation}) => {
 
     const logout = async () => {
-        await axios.post(`http://192.168.0.102:5000/accounts/logout`, { accessToken: global.currentUser.accessToken })
+        await axios.post(`http://192.168.1.7:5000/accounts/logout`, { accessToken: global.currentUser.accessToken })
         .then(res => {
             if (res.data.code === '20') navigation.navigate("LoginScreen");
             else Alert.alert(res.data.message);

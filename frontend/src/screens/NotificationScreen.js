@@ -28,7 +28,7 @@ const NotificationScreen = () => {
             accessToken: global.currentUser.accessToken,
         };
         setLoading(true);
-        await axios.post(`http://192.168.0.102:5000/nortifies/get_list_nortifies`, requestData)
+        await axios.post(`http://192.168.1.7:5000/nortifies/get_list_nortifies`, requestData)
         .then(res => {
             if (res.data.code === '20') {
                 let returnListPlace = [];

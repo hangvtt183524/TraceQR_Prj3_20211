@@ -56,7 +56,7 @@ const RegisterScreen = ({navigation}) => {
         location: global.location
       };
       setLoading(true);
-      await axios.post(`http://192.168.0.102:5000/accounts/register`, newAccount)
+      await axios.post(`http://192.168.1.7:5000/accounts/register`, newAccount)
       .then(res => {
         if (res.data.code === '43') Alert.alert("This information has been used for another account!");
         else if (res.data.code === '50') Alert.alert("Error! Please try again after a few minutes...");
