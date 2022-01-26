@@ -28,15 +28,30 @@ const NotificationScreen = () => {
             accessToken: global.currentUser.accessToken,
         };
         setLoading(true);
-        await axios.post(`http://192.168.1.7:5000/nortifies/get_list_nortifies`, requestData)
+
+        let url = null;
+        if (global.currentType === 'private_user') {
+            url = `http://192.168.1.7:5000/nortifies/get_list_nortifies`
+        } else {
+            url = `http://192.168.1.7:5000/nortifies/get_list_nortifies_place`
+        }
+
+        await axios.post(url, requestData)
         .then(res => {
             if (res.data.code === '20') {
                 let returnListPlace = [];
                 const returnData = res.data.data;
                 //console.log('return data: ', returnData);
-                for (let i=0; i<returnData.length; i++) {
-                    returnListPlace.push(<NotifyNode key={i} name={returnData[i].name} address={returnData[i].address} message={returnData[i].message} _idNotify={returnData[i]._idNotify} />);
+                if (global.currentType === 'private_user') {
+                    for (let i=0; i<returnData.length; i++) {
+                        returnListPlace.push(<NotifyNode key={i} name={returnData[i].name} address={returnData[i].address} message={returnData[i].message} _idNotify={returnData[i]._idNotify} />);
+                    }
+                } else {
+                    for (let i=0; i<returnData.length; i++) {
+                        returnListPlace.push(<NotifyNode key={i} name={returnData[i].name} address={returnData[i].address} message={returnData[i].message} _idNotify={returnData[i]._idNotify} />);
+                    }
                 }
+                
                 global.countWarning = returnData.length;
                 setLoading(false);
                 setListNotifies(returnListPlace);

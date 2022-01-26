@@ -123,26 +123,28 @@ const ChangeInforScreen = ({navigation}) => {
                 <Header name="Update information"/>
             </View>
             <ScrollView style={styles.body}>
-                <View style={styles.body_situation_container}>
-                    <TouchableOpacity style={styles.body_situation} onPress={showSituation}>
-                        <Text style={styles.text_title}>Update your Covid situation</Text>
-                        {isShowSituation ? 
-                            <MaterialIcons name="keyboard-arrow-up" color={style_default.THEME_COLOR} size={30} /> :
-                            <MaterialIcons name="keyboard-arrow-down" color={style_default.THEME_COLOR} size={30} /> 
-                        }    
-                    </TouchableOpacity>
-                    {isShowSituation ? 
-                    <View style={styles.select_situation}>
-                        <RadioForm
-                            radio_props={radio_props}
-                            initial={3}
-                            onPress={value => setState(value)}
-                            buttonColor={style_default.THEME_COLOR}
-                            selectedButtonColor={'#0bd66d'}
-                        />
-                    </View> : <View></View>     
-                    }
-                </View>
+                { global.currentType === 'private_user' ? 
+                                <View style={styles.body_situation_container}>
+                                <TouchableOpacity style={styles.body_situation} onPress={showSituation}>
+                                    <Text style={styles.text_title}>Update your Covid situation</Text>
+                                    {isShowSituation ? 
+                                        <MaterialIcons name="keyboard-arrow-up" color={style_default.THEME_COLOR} size={30} /> :
+                                        <MaterialIcons name="keyboard-arrow-down" color={style_default.THEME_COLOR} size={30} /> 
+                                    }    
+                                </TouchableOpacity>
+                                {isShowSituation ? 
+                                <View style={styles.select_situation}>
+                                    <RadioForm
+                                        radio_props={radio_props}
+                                        initial={3}
+                                        onPress={value => setState(value)}
+                                        buttonColor={style_default.THEME_COLOR}
+                                        selectedButtonColor={'#0bd66d'}
+                                    />
+                                </View> : <View></View>     
+                                }
+                            </View> : <View></View>}
+
                 <View style={styles.private_info}>
                     <Text style={styles.text_title}>Private Information</Text>
                     <View style={styles.info_detail}>
