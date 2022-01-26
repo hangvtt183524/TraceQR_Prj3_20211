@@ -5,10 +5,15 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
-    Modal
+    Modal,
+    Alert
 } from 'react-native';
 import style_default from '../shared/const';
 import CalendarPicker from 'react-native-calendar-picker';
+import HistoryPlaceNode from '../components/HistoryPlaceNode';
+import ModalLoading from "../components/ModalLoading";
+
+import axios from 'axios';
 
 const months = {
     "Jan": '01',
@@ -30,6 +35,8 @@ const HistoryPlaceScreen = () => {
     const [datetime, setDatetime] = useState(null);
     const [selectDatetime, setSelectDatetime] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [historyNode, setHistoryNode] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const showCalendar = () => {
         setShowModal(true);
@@ -44,11 +51,46 @@ const HistoryPlaceScreen = () => {
     const onDateChange = function(date) {
         setSelectDatetime(date);
     };
+    
+    const getListHistory = async () => {
+        const requestData = {
+            id: global.currentUser.id,
+            accessToken: global.currentUser.accessToken,
+            datetime: datetime
+        }
+
+        setLoading(true);
+        await axios.post(`http://192.168.1.7:5000/qrs/list_qrs_user`, requestData)
+        .then(res => {
+            if (res.data.code === '40a') {
+                setHistoryNode([]);
+            } else if (res.data.code === '20') {
+                let historyRes = [];
+                let count = 0;
+
+                res.data.data.forEach(ele => {
+                    historyRes.push(<HistoryPlaceNode key={count} datetime={ele.timeScan} />);
+                    count = count + 1;
+                });
+                setCountCustomer(count);
+                setLoading(false);
+            } else {
+                setLoading(false);
+                Alert.alert(res.data.message);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+        setLoading(false);
+    };
 
     useEffect(() => {
         const dateNow = new Date();
         setDatetime(dateNow.getFullYear() + '-' + (dateNow.getMonth() + 1) + '-' + (dateNow.getDate()));
         ///getListHistory();
+        getListHistory();
     }, []);
 
     return (
@@ -63,9 +105,10 @@ const HistoryPlaceScreen = () => {
                     </View>
                     <Text style={styles.text_function}>Customer Scanner List: {countCustomer}</Text>
                 </View>
-                <ScrollView>
-
-                </ScrollView>
+                { loading ? <ModalLoading /> :
+                <ScrollView style={styles.info_body}>
+                    {historyNode}
+                </ScrollView>}
             </View>
             <Modal visible={showModal} transparent>
                 <View style={styles.modal_container}>
@@ -175,6 +218,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         marginTop: 6
+    },
+    info_body: {
+        marginTop: 40
     }
 })
 
