@@ -13,7 +13,6 @@ const NotifyNode = (props) => {
 
     const seen = () => {
         setVisible(false);
-        global.countWarning = global.countWarning - 1;
     };
 
     if (isVisible)
@@ -21,7 +20,7 @@ const NotifyNode = (props) => {
         <View style={styles.container}>
             <View style={styles.info}>
                 <Text style={[styles.info_text, {fontWeight: 'bold'}]}>{ props.name }</Text>
-                <Text style={[styles.info_text, {fontSize: 15}]}>{ props.address }</Text>
+                { props.address ? <Text style={[styles.info_text, {fontSize: 15}]}>{ props.address }</Text> : <View></View>}
                 <Text style={[styles.info_text, {marginTop: 10}]}>{ props.message }</Text>
             </View>
             <TouchableOpacity

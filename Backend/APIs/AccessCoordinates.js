@@ -27,15 +27,21 @@ updateRoute.post('/states/update_situation_only', authenticateToken, async (req,
             // console.log(dateBefore)
 
             const listPlace = await ScanQRSchema.find({ _idScanner: id, dateScan: { $gte: dateBefore, $lte: dateNow }});
+            let warningPlaceSaves = [];
             if (listPlace !== null && listPlace.length > 0) {
-                console.log(listPlace.length);
                 for (let i=0; i<listPlace.length; i++) {
+                    warningPlaceSaves.push({
+                        _idReference: listPlace[i]._idReference,
+                        _idPlace: listPlace[i]._idReference,
+                        message: "There was an " + type + " had been here in " + listPlace[i].dateScan + " at " + listPlace[i].timeScan,
+                        seen: false
+                    });
+
                     const listScannerEachPlace = await ScanQRSchema.find({ _idReference: listPlace[i]._idReference, dateScan: { $gte: dateBefore, $lte: dateNow }});
                     if (listScannerEachPlace !== null && listScannerEachPlace.length > 0) {
                         const warningSaves = [];
                         let aWarning;
                         for (let j=0; j<listScannerEachPlace.length; j++) {
-                            console.log(listScannerEachPlace[j]);
                             aWarning = { 
                                 _idReference: listScannerEachPlace[j]._idScanner,
                                 _idPlace: listScannerEachPlace[j]._idReference,
@@ -51,6 +57,7 @@ updateRoute.post('/states/update_situation_only', authenticateToken, async (req,
                     }
                     //console.log('each place: ', listScannerEachPlace);
                 }
+                await WarningSchema.create(warningPlaceSaves);
             }
             // console.log(listPlace);
         }

@@ -84,12 +84,10 @@ qrcodeRoute.post('/qrs/list_qrs_place', authenticateToken, async (req, res) => {
 
 qrcodeRoute.post('/qrs/list_qrs_user', authenticateToken, async (req, res) => {
     const { id, accessToken, datetime } = req.body;
-    //console.log(datetime);
     if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
     else {
         const listUser = await ScanQRSchema.find({ _idReference: id, dateScan: datetime });
             //console.log(returnListPlace);
-        listUser.shift();
         return res.status(200).json({ code: "20", message: "OK", data: listUser });
         }
 });

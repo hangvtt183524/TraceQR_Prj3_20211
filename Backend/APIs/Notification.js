@@ -52,6 +52,33 @@ nortifyRoute.post('/nortifies/get_list_nortifies', authenticateToken, async (req
 
         return res.status(200).json({ code: "20", message: "OK" });
     }
-})
+});
+
+nortifyRoute.post('/nortifies/get_list_nortifies_place', authenticateToken, async (req, res) => {
+    const { id, accessToken } = req.body;
+
+    if (id !== req.currentUser.id) return res.status(200).json({ code: "13", message: "Token invalid" });
+    else {
+        const notSeenNoftify = await WarningSchema.find({ _idReference: id, seen: false });
+        console.log(notSeenNoftify);
+        if (notSeenNoftify !== null && notSeenNoftify.length > 0) {
+            let listUsers = [];
+            for (let i=0; i<notSeenNoftify.length; i++) {
+                let userEle = {};
+
+                userEle.message = notSeenNoftify[i].message
+                userEle._idNotify = notSeenNoftify[i]._id
+
+                listUsers.push(userEle);
+            }
+            //console.log(listPlaces);
+            return res.status(200).json({ code: "20", message: "OK", data: listUsers });
+        } else {
+            return res.status(200).json({ code: "40a", message: "No warning" });
+        }     
+
+        return res.status(200).json({ code: "20", message: "OK" });
+    }
+});
 
 module.exports = nortifyRoute;

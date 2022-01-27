@@ -31,8 +31,9 @@ const months = {
 }
 
 const HistoryPlaceScreen = () => {
+    const dateNow = new Date();
     const [countCustomer, setCountCustomer] = useState(0);
-    const [datetime, setDatetime] = useState(null);
+    const [datetime, setDatetime] = useState(dateNow.getFullYear() + '-' + (dateNow.getMonth() + 1) + '-' + (dateNow.getDate()));
     const [selectDatetime, setSelectDatetime] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [historyNode, setHistoryNode] = useState(null);
@@ -72,6 +73,7 @@ const HistoryPlaceScreen = () => {
                     historyRes.push(<HistoryPlaceNode key={count} datetime={ele.timeScan} />);
                     count = count + 1;
                 });
+                setHistoryNode(historyRes);
                 setCountCustomer(count);
                 setLoading(false);
             } else {
